@@ -3,185 +3,259 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Discord Community</title>
+  <title>Celestial Network</title>
   <style>
     :root {
       --bg: #0b1020;
-      --bg2: #121a31;
+      --bg2: #111936;
+      --sidebar: rgba(12, 18, 36, 0.78);
       --card: rgba(255,255,255,0.08);
+      --card-2: rgba(255,255,255,0.05);
       --text: #ffffff;
-      --muted: rgba(255,255,255,0.7);
-      --accent: #5865F2;
-      --accent2: #7c8cff;
+      --muted: rgba(255,255,255,0.72);
+      --accent: #ff5b2e;
+      --accent2: #ff8a3d;
       --border: rgba(255,255,255,0.12);
-      --shadow: 0 10px 40px rgba(88, 101, 242, 0.22);
+      --shadow: 0 16px 48px rgba(255, 91, 46, 0.22);
+      --success: #22c55e;
+      --warn: #facc15;
+      --danger: #ef4444;
+      --offline: #94a3b8;
     }
 
     body.light {
-      --bg: #eef2ff;
-      --bg2: #dbe4ff;
-      --card: rgba(255,255,255,0.75);
+      --bg: #edf2ff;
+      --bg2: #dce6ff;
+      --sidebar: rgba(255,255,255,0.78);
+      --card: rgba(255,255,255,0.78);
+      --card-2: rgba(255,255,255,0.55);
       --text: #111827;
       --muted: rgba(17,24,39,0.72);
-      --accent: #4f46e5;
-      --accent2: #6366f1;
+      --accent: #ff5b2e;
+      --accent2: #ff8a3d;
       --border: rgba(17,24,39,0.08);
-      --shadow: 0 10px 40px rgba(79, 70, 229, 0.18);
+      --shadow: 0 16px 48px rgba(255, 91, 46, 0.18);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       font-family: Inter, "Segoe UI", Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(88,101,242,0.28), transparent 28%),
-        radial-gradient(circle at top right, rgba(124,140,255,0.18), transparent 24%),
+        radial-gradient(circle at top left, rgba(255,91,46,0.22), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(255,138,61,0.16), transparent 22%),
         linear-gradient(135deg, var(--bg), var(--bg2));
       min-height: 100vh;
       transition: background 0.35s ease, color 0.35s ease;
     }
 
-    .topbar {
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
       position: sticky;
       top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(0,0,0,0.18);
-      border-bottom: 1px solid var(--border);
+      height: 100vh;
+      padding: 22px 18px;
+      background: var(--sidebar);
+      backdrop-filter: blur(18px);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
     }
 
-    body.light .topbar {
-      background: rgba(255,255,255,0.55);
-    }
-
-    .topbar-inner {
-      max-width: 1200px;
-      margin: auto;
-      padding: 14px 20px;
+    .logo-wrap {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
-    .brand {
-      font-weight: 800;
-      letter-spacing: 0.3px;
-      font-size: 1rem;
+    .sidebar-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
-    .controls {
-      display: flex;
+    .logo-text {
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .sidebar-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    .nav-links {
+      display: grid;
       gap: 10px;
-      flex-wrap: wrap;
     }
 
-    button, .join-btn {
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--card-2);
+      border: 1px solid transparent;
+      transition: 0.18s ease;
+      font-weight: 700;
+    }
+
+    .nav-links a:hover {
+      transform: translateX(4px);
+      border-color: var(--border);
+      background: var(--card);
+    }
+
+    .sidebar-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button, .btn {
       border: none;
       border-radius: 14px;
-      padding: 12px 18px;
-      font-weight: 700;
+      padding: 12px 16px;
+      font-weight: 800;
       cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      font-family: inherit;
     }
 
-    button:hover, .join-btn:hover {
+    button:hover, .btn:hover {
       transform: translateY(-2px);
     }
 
-    .ghost-btn {
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary {
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
     }
 
-    .join-btn {
-      text-decoration: none;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: white;
-      box-shadow: var(--shadow);
-      display: inline-block;
+    .main {
+      padding: 28px;
     }
 
     .hero {
-      max-width: 1200px;
-      margin: auto;
-      padding: 60px 20px 36px;
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 24px;
-      align-items: center;
+      margin-bottom: 24px;
     }
 
-    .hero-card, .stats-card, .section-card {
+    .hero-card, .panel {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 26px;
+      border-radius: 28px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
+      animation: fadeUp 0.7s ease;
     }
 
     .hero-card {
       padding: 34px;
-      animation: fadeUp 0.8s ease;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
     }
 
-    .stats-card {
-      padding: 24px;
-      animation: fadeUp 1s ease;
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255,138,61,0.18);
+      filter: blur(50px);
+      right: -60px;
+      top: -60px;
+      pointer-events: none;
     }
 
     .eyebrow {
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.14em;
-      font-size: 0.8rem;
-      margin-bottom: 12px;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
     }
 
     h1 {
-      margin: 0 0 10px;
-      font-size: clamp(2rem, 5vw, 3.6rem);
-      line-height: 1.05;
+      margin: 0 0 12px;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.04;
     }
 
-    .subtitle {
+    .hero-text {
       color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      max-width: 60ch;
+      line-height: 1.75;
+      max-width: 62ch;
+      font-size: 1.02rem;
+      margin: 0 auto;
     }
 
     .hero-actions {
-      margin-top: 24px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 24px;
     }
 
-    .stat-grid {
+    .panel {
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-top: 14px;
     }
 
     .stat {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.06);
+      background: var(--card-2);
       border: 1px solid var(--border);
-    }
-
-    body.light .stat {
-      background: rgba(255,255,255,0.55);
+      border-radius: 20px;
+      padding: 18px;
     }
 
     .stat-label {
@@ -192,37 +266,43 @@
 
     .stat-value {
       font-size: 1.8rem;
-      font-weight: 800;
+      font-weight: 900;
     }
 
-    .updated {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 20px 60px;
-    }
-
-    .grid {
+    .section-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 24px;
-      margin-top: 24px;
+      margin-bottom: 24px;
     }
 
-    .section-card {
-      padding: 24px;
-      animation: fadeUp 0.8s ease;
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 800;
-      margin-bottom: 18px;
+    .mini-card {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      transition: 0.18s ease;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .mini-title {
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .mini-text {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.95rem;
     }
 
     .members {
@@ -233,22 +313,17 @@
 
     .member {
       display: flex;
-      gap: 14px;
       align-items: center;
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
+      gap: 14px;
+      background: var(--card-2);
       border: 1px solid var(--border);
-      transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    body.light .member {
-      background: rgba(255,255,255,0.55);
+      border-radius: 18px;
+      padding: 14px;
+      transition: 0.18s ease;
     }
 
     .member:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
     }
 
     .member img {
@@ -256,25 +331,16 @@
       height: 56px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.16);
-    }
-
-    .member-info {
-      min-width: 0;
-      flex: 1;
     }
 
     .member-name {
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 4px;
     }
 
-    .status-line, .activity-line {
-      color: var(--muted);
+    .status-row, .activity-line {
       font-size: 0.92rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--muted);
     }
 
     .status-row {
@@ -287,225 +353,301 @@
     .dot {
       width: 10px;
       height: 10px;
-      border-radius: 999px;
+      border-radius: 50%;
       box-shadow: 0 0 12px currentColor;
       flex-shrink: 0;
     }
 
-    .online { color: #22c55e; background: #22c55e; }
-    .idle { color: #facc15; background: #facc15; }
-    .dnd { color: #ef4444; background: #ef4444; }
-    .offline { color: #94a3b8; background: #94a3b8; }
+    .online { color: var(--success); background: var(--success); }
+    .idle { color: var(--warn); background: var(--warn); }
+    .dnd { color: var(--danger); background: var(--danger); }
+    .offline { color: var(--offline); background: var(--offline); }
 
-    .voice-list {
+    .voice-list, .activity-list, .faq-list, .staff-list {
       display: grid;
       gap: 12px;
     }
 
-    .voice-channel {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
+    .row-card {
+      background: var(--card-2);
       border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
     }
 
-    body.light .voice-channel {
-      background: rgba(255,255,255,0.55);
-    }
-
-    .voice-name {
-      font-weight: 800;
+    .row-title {
+      font-weight: 900;
       margin-bottom: 10px;
     }
 
-    .voice-members {
+    .pill-wrap {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .voice-pill {
+    .pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(88,101,242,0.15);
-      border: 1px solid rgba(88,101,242,0.25);
+      background: rgba(255,91,46,0.15);
+      border: 1px solid rgba(255,91,46,0.25);
       font-size: 0.92rem;
     }
 
-    .voice-pill img {
+    .pill img {
       width: 26px;
       height: 26px;
       border-radius: 50%;
     }
 
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 800;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-answer {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    .rules-list {
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
     .empty {
       color: var(--muted);
-      padding: 8px 0;
     }
 
-    .glow {
-      position: fixed;
-      width: 340px;
-      height: 340px;
-      border-radius: 999px;
-      filter: blur(70px);
-      opacity: 0.18;
-      pointer-events: none;
-      z-index: -1;
-      animation: floatGlow 12s ease-in-out infinite alternate;
-    }
-
-    .glow.one {
-      background: #5865F2;
-      top: 10%;
-      left: -60px;
-    }
-
-    .glow.two {
-      background: #7c8cff;
-      right: -70px;
-      bottom: 8%;
-      animation-delay: 2s;
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 28px;
+      padding-bottom: 18px;
     }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes floatGlow {
-      from {
-        transform: translateY(0) translateX(0) scale(1);
-      }
-      to {
-        transform: translateY(-24px) translateX(18px) scale(1.08);
-      }
-    }
-
-    @media (max-width: 920px) {
-      .hero, .grid {
+    @media (max-width: 1100px) {
+      .hero, .section-grid, .cards-3 {
         grid-template-columns: 1fr;
+      }
+
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
       }
     }
 
     @media (max-width: 640px) {
-      .hero {
-        padding-top: 34px;
-      }
-
-      .hero-card, .stats-card, .section-card {
-        border-radius: 22px;
-      }
-
-      .members {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar-inner {
-        gap: 12px;
-        align-items: flex-start;
-        flex-direction: column;
-      }
+      .main { padding: 18px; }
+      .hero-card, .panel, .sidebar-card { border-radius: 22px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .members { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="glow one"></div>
-  <div class="glow two"></div>
-
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Discord Community Portal</div>
-      <div class="controls">
-        <button class="ghost-btn" id="refreshBtn">Refresh</button>
-        <button class="ghost-btn" id="themeToggle">Toggle Theme</button>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo-wrap">
+        <div style="width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(135deg, #ff5b2e, #ff8a3d); box-shadow: 0 10px 30px rgba(0,0,0,0.25);"></div>
+        <div class="logo-text">Celestial Network</div>
       </div>
-    </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Navigation</div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#features">Why Join</a>
+          <a href="#voice">Voice Channels</a>
+          <a href="#members">Members</a>
+          <a href="#staff">Staff</a>
+          <a href="#rules">Rules</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Quick Actions</div>
+        <div class="sidebar-buttons">
+          <a id="joinBtnSide" class="btn btn-primary" href="#" target="_blank">Join Discord</a>
+          <button class="btn btn-secondary" id="copyInviteBtn">Copy Invite</button>
+          <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
+          <button class="btn btn-secondary" id="themeToggle">Toggle Theme</button>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Live Status</div>
+        <div id="sidebarStatus" class="empty">Loading widget data...</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="home">
+        <div class="hero-card">
+          <div class="eyebrow">Minecraft Community Network</div>
+          <h1 id="serverName">Celestial Network</h1>
+          <div class="hero-text">
+            Welcome to Celestial Network — a Minecraft community where players can hang out, chat, join events, and stay connected through Discord.
+          </div>
+          <div class="hero-actions">
+            <a id="joinBtnHero" class="btn btn-primary" href="#" target="_blank">Join the Community</a>
+            <button class="btn btn-secondary" onclick="document.getElementById('members').scrollIntoView({behavior:'smooth'})">See Members</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-title">📊 Live Server Stats</div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">Online Now</div>
+              <div class="stat-value" id="onlineCount">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Visible Members</div>
+              <div class="stat-value" id="visibleCount">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Voice Channels</div>
+              <div class="stat-value" id="voiceCount">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Auto Refresh</div>
+              <div class="stat-value">30s</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;color:var(--muted);" id="lastUpdated">Last updated: --</div>
+        </div>
+      </section>
+
+      <section class="panel" id="features" style="margin-bottom:24px;">
+        <div class="section-title">✨ Why Join Celestial Network?</div>
+        <div class="cards-3">
+          <div class="mini-card">
+            <div class="mini-title">⚔️ PvP & Competition</div>
+            <div class="mini-text">Battle players, rise through ranks, and prove yourself across the network.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">🏰 Community & Events</div>
+            <div class="mini-text">Join community events, seasonal activities, and fun server challenges.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">🌌 Network Community</div>
+            <div class="mini-text">Stay connected with the Celestial Network player base through Discord and live updates.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid">
+        <section class="panel" id="voice">
+          <div class="section-title">🔊 Voice Channels</div>
+          <div id="voiceChannels" class="voice-list">
+            <div class="empty">Loading voice channels...</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">🎮 Activity Feed</div>
+          <div id="activityFeed" class="activity-list">
+            <div class="empty">Loading activity feed...</div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel" id="members" style="margin-bottom:24px;">
+        <div class="section-title">👥 Online Members</div>
+        <div id="membersGrid" class="members">
+          <div class="empty">Loading members...</div>
+        </div>
+      </section>
+
+      <section class="section-grid">
+        <section class="panel" id="staff">
+          <div class="section-title">🛡️ Staff / Featured Members</div>
+          <div id="staffList" class="staff-list">
+            <div class="empty">Loading featured members...</div>
+          </div>
+        </section>
+
+        <section class="panel" id="rules">
+          <div class="section-title">📜 Server Rules</div>
+          <div class="rules-list">
+            <div>1. Be respectful to all players and members.</div>
+            <div>2. No cheating, harassment, spam, or toxic behavior.</div>
+            <div>3. Keep the server and Discord fun, safe, and welcoming.</div>
+            <div>4. Follow staff instructions and use channels properly.</div>
+            <div>5. Most importantly: enjoy your time on Celestial Network.</div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel" id="faq">
+        <div class="section-title">❓ FAQ</div>
+        <div class="faq-list">
+          <details class="faq-item row-card">
+            <summary>How do I join the Discord?</summary>
+            <div class="faq-answer">Use any Join Discord button on this page to open the invite link instantly.</div>
+          </details>
+          <details class="faq-item row-card">
+            <summary>Why don't I see every player or activity?</summary>
+            <div class="faq-answer">Discord's public widget is limited and only shows the data Discord allows publicly.</div>
+          </details>
+          <details class="faq-item row-card">
+            <summary>Does this page update automatically?</summary>
+            <div class="faq-answer">Yes — Celestial Network updates automatically every 30 seconds.</div>
+          </details>
+          <details class="faq-item row-card">
+            <summary>Can this website be hosted online?</summary>
+            <div class="faq-answer">Yes — GitHub Pages or Netlify are the easiest free ways to publish it.</div>
+          </details>
+        </div>
+      </section>
+
+      <div class="footer">
+        Celestial Network • Powered by Discord Widget JSON • Auto-refresh enabled
+      </div>
+    </main>
   </div>
-
-  <section class="hero">
-    <div class="hero-card">
-      <div class="eyebrow">Live Server Widget</div>
-      <h1 id="server-name">Loading server...</h1>
-      <p class="subtitle" id="server-description">
-        Live community page powered by your Discord widget JSON.
-      </p>
-      <div class="hero-actions">
-        <a id="join-btn" class="join-btn" href="#" target="_blank">Join Server</a>
-        <button class="ghost-btn" id="scrollMembers">See Members</button>
-      </div>
-    </div>
-
-    <div class="stats-card">
-      <div class="section-title">Live Stats</div>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-label">Online Now</div>
-          <div class="stat-value" id="online-count">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Visible Members</div>
-          <div class="stat-value" id="visible-count">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Voice Channels</div>
-          <div class="stat-value" id="voice-count">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Auto Refresh</div>
-          <div class="stat-value">10s</div>
-        </div>
-      </div>
-      <div class="updated" id="last-updated">Last updated: --</div>
-    </div>
-  </section>
-
-  <main class="container">
-    <div class="grid">
-      <section class="section-card">
-        <div class="section-title">🔊 Voice Channels</div>
-        <div id="voice-channels" class="voice-list">
-          <div class="empty">Loading voice channels...</div>
-        </div>
-      </section>
-
-      <section class="section-card">
-        <div class="section-title">🎮 Activity Feed</div>
-        <div id="activity-feed" class="voice-list">
-          <div class="empty">Loading activities...</div>
-        </div>
-      </section>
-    </div>
-
-    <section class="section-card" id="members-section" style="margin-top:24px;">
-      <div class="section-title">👥 Online Members</div>
-      <div id="members" class="members">
-        <div class="empty">Loading members...</div>
-      </div>
-    </section>
-  </main>
 
   <script>
     const WIDGET_URL = "https://discord.com/api/guilds/1267622655201378314/widget.json";
 
-    const serverName = document.getElementById("server-name");
-    const onlineCount = document.getElementById("online-count");
-    const visibleCount = document.getElementById("visible-count");
-    const voiceCount = document.getElementById("voice-count");
-    const joinBtn = document.getElementById("join-btn");
-    const membersEl = document.getElementById("members");
-    const voiceEl = document.getElementById("voice-channels");
-    const activityEl = document.getElementById("activity-feed");
-    const lastUpdated = document.getElementById("last-updated");
+    const serverName = document.getElementById("serverName");
+    const onlineCount = document.getElementById("onlineCount");
+    const visibleCount = document.getElementById("visibleCount");
+    const voiceCount = document.getElementById("voiceCount");
+    const joinBtnHero = document.getElementById("joinBtnHero");
+    const joinBtnSide = document.getElementById("joinBtnSide");
+    const membersGrid = document.getElementById("membersGrid");
+    const voiceChannels = document.getElementById("voiceChannels");
+    const activityFeed = document.getElementById("activityFeed");
+    const staffList = document.getElementById("staffList");
+    const lastUpdated = document.getElementById("lastUpdated");
+    const sidebarStatus = document.getElementById("sidebarStatus");
+
+    let currentInvite = "";
 
     function getStatusClass(status) {
       if (status === "online") return "online";
@@ -514,118 +656,110 @@
       return "offline";
     }
 
-    function safeActivity(member) {
-      // Discord widget data may or may not include activity/game fields.
-      // This tries a few common possibilities safely.
-      if (member.game && typeof member.game === "object" && member.game.name) {
-        return member.game.name;
-      }
-      if (member.activity && typeof member.activity === "object" && member.activity.name) {
-        return member.activity.name;
-      }
-      if (member.activities && Array.isArray(member.activities) && member.activities.length > 0) {
-        const act = member.activities.find(a => a && a.name);
-        if (act) return act.name;
+    function getActivity(member) {
+      if (member.game && typeof member.game === "object" && member.game.name) return member.game.name;
+      if (member.activity && typeof member.activity === "object" && member.activity.name) return member.activity.name;
+      if (Array.isArray(member.activities)) {
+        const found = member.activities.find(a => a && a.name);
+        if (found) return found.name;
       }
       return null;
     }
 
     function formatTime() {
-      const now = new Date();
-      return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      return new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
     }
 
-    function renderMembers(members = []) {
-      membersEl.innerHTML = "";
+    function renderMembers(members) {
+      membersGrid.innerHTML = "";
 
       if (!members.length) {
-        membersEl.innerHTML = '<div class="empty">No visible members right now.</div>';
+        membersGrid.innerHTML = '<div class="empty">No visible members right now.</div>';
         return;
       }
 
       members.forEach(member => {
         const statusClass = getStatusClass(member.status);
-        const activity = safeActivity(member);
+        const activity = getActivity(member);
 
         const card = document.createElement("div");
         card.className = "member";
         card.innerHTML = `
           <img src="${member.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${member.username}">
-          <div class="member-info">
+          <div>
             <div class="member-name">${member.username}</div>
             <div class="status-row">
               <span class="dot ${statusClass}"></span>
-              <span class="status-line">${member.status || "unknown"}</span>
+              <span>${member.status || "unknown"}</span>
             </div>
             <div class="activity-line">${activity ? "🎮 Playing " + activity : "No visible activity"}</div>
           </div>
         `;
-        membersEl.appendChild(card);
+        membersGrid.appendChild(card);
       });
     }
 
-    function renderActivities(members = []) {
-      activityEl.innerHTML = "";
+    function renderActivities(members) {
+      activityFeed.innerHTML = "";
 
-      const activeMembers = members
+      const activities = members
         .map(member => ({
           username: member.username,
           avatar_url: member.avatar_url,
-          activity: safeActivity(member)
+          activity: getActivity(member)
         }))
         .filter(m => m.activity);
 
-      if (!activeMembers.length) {
-        activityEl.innerHTML = '<div class="empty">No visible game/activity data from the widget.</div>';
+      if (!activities.length) {
+        activityFeed.innerHTML = '<div class="empty">No visible game/activity data from the widget.</div>';
         return;
       }
 
-      activeMembers.forEach(m => {
-        const row = document.createElement("div");
-        row.className = "voice-channel";
-        row.innerHTML = `
-          <div class="voice-members">
-            <span class="voice-pill">
+      activities.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "row-card";
+        card.innerHTML = `
+          <div class="pill-wrap">
+            <span class="pill">
               <img src="${m.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${m.username}">
               <strong>${m.username}</strong> — 🎮 ${m.activity}
             </span>
           </div>
         `;
-        activityEl.appendChild(row);
+        activityFeed.appendChild(card);
       });
     }
 
-    function renderVoiceChannels(channels = [], members = []) {
-      voiceEl.innerHTML = "";
+    function renderVoiceChannels(channels, members) {
+      voiceChannels.innerHTML = "";
 
-      const voiceChannels = channels.filter(ch =>
+      const voice = channels.filter(ch =>
         typeof ch.name === "string" &&
-        (
-          ch.name.toLowerCase().includes("voice") ||
-          ch.position !== undefined ||
-          ch.id
-        )
+        (ch.name.toLowerCase().includes("voice") || ch.position !== undefined || ch.id)
       );
 
-      if (!voiceChannels.length) {
-        voiceEl.innerHTML = '<div class="empty">No visible voice channels exposed by the widget.</div>';
+      if (!voice.length) {
+        voiceChannels.innerHTML = '<div class="empty">No visible voice channels exposed by the widget.</div>';
         return;
       }
 
-      voiceChannels.forEach(channel => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "voice-channel";
+      voice.forEach(channel => {
+        const card = document.createElement("div");
+        card.className = "row-card";
 
-        // Some widget payloads include channel membership via member.channel_id
         const inChannel = members.filter(m => m.channel_id && String(m.channel_id) === String(channel.id));
 
-        wrapper.innerHTML = `
-          <div class="voice-name">${channel.name}</div>
-          <div class="voice-members">
+        card.innerHTML = `
+          <div class="row-title">${channel.name}</div>
+          <div class="pill-wrap">
             ${
               inChannel.length
                 ? inChannel.map(m => `
-                    <span class="voice-pill">
+                    <span class="pill">
                       <img src="${m.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${m.username}">
                       ${m.username}
                     </span>
@@ -635,10 +769,40 @@
           </div>
         `;
 
-        voiceEl.appendChild(wrapper);
+        voiceChannels.appendChild(card);
       });
 
-      voiceCount.textContent = voiceChannels.length;
+      voiceCount.textContent = voice.length;
+    }
+
+    function renderStaff(members) {
+      staffList.innerHTML = "";
+
+      const featured = members.slice(0, 5);
+
+      if (!featured.length) {
+        staffList.innerHTML = '<div class="empty">Loading featured members...</div>';
+        return;
+      }
+
+      featured.forEach(member => {
+        const card = document.createElement("div");
+        card.className = "row-card";
+        const status = getStatusClass(member.status);
+        card.innerHTML = `
+          <div style="display:flex;align-items:center;gap:12px;">
+            <img src="${member.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${member.username}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">
+            <div>
+              <div class="mini-title">${member.username}</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.92rem;color:var(--muted);">
+                <span class="dot ${status}"></span>
+                ${member.status || "unknown"}
+              </div>
+            </div>
+          </div>
+        `;
+        staffList.appendChild(card);
+      });
     }
 
     async function loadServer() {
@@ -652,31 +816,38 @@
         serverName.textContent = data.name || "Discord Server";
         onlineCount.textContent = data.presence_count || 0;
         visibleCount.textContent = members.length;
-        joinBtn.href = data.instant_invite || "#";
+        currentInvite = data.instant_invite || "";
+        
+        joinBtnHero.href = currentInvite;
+        joinBtnSide.href = currentInvite;
+
+        sidebarStatus.innerHTML = `<div style="font-size:0.9rem;"><strong>${data.presence_count || 0}</strong> online</div>`;
 
         renderMembers(members);
         renderActivities(members);
         renderVoiceChannels(channels, members);
+        renderStaff(members);
 
         lastUpdated.textContent = "Last updated: " + formatTime();
       } catch (err) {
         console.error("Failed to load widget:", err);
         serverName.textContent = "Failed to load server";
-        membersEl.innerHTML = '<div class="empty">Could not load member data.</div>';
-        voiceEl.innerHTML = '<div class="empty">Could not load voice channels.</div>';
-        activityEl.innerHTML = '<div class="empty">Could not load activity feed.</div>';
+        membersGrid.innerHTML = '<div class="empty">Could not load member data.</div>';
       }
     }
 
     document.getElementById("refreshBtn").addEventListener("click", loadServer);
 
+    document.getElementById("copyInviteBtn").addEventListener("click", () => {
+      if (currentInvite) {
+        navigator.clipboard.writeText(currentInvite);
+        alert("Invite link copied to clipboard!");
+      }
+    });
+
     document.getElementById("themeToggle").addEventListener("click", () => {
       document.body.classList.toggle("light");
       localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
-    });
-
-    document.getElementById("scrollMembers").addEventListener("click", () => {
-      document.getElementById("members-section").scrollIntoView({ behavior: "smooth" });
     });
 
     if (localStorage.getItem("theme") === "light") {
@@ -684,7 +855,7 @@
     }
 
     loadServer();
-    setInterval(loadServer, 10000); // auto refresh every 10s
+    setInterval(loadServer, 30000);
   </script>
 </body>
 </html>
