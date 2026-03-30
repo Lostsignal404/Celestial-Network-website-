@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discord Community</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg2: #121a31;
+      --card: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.7);
+      --accent: #5865F2;
+      --accent2: #7c8cff;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 10px 40px rgba(88, 101, 242, 0.22);
+    }
+
+    body.light {
+      --bg: #eef2ff;
+      --bg2: #dbe4ff;
+      --card: rgba(255,255,255,0.75);
+      --text: #111827;
+      --muted: rgba(17,24,39,0.72);
+      --accent: #4f46e5;
+      --accent2: #6366f1;
+      --border: rgba(17,24,39,0.08);
+      --shadow: 0 10px 40px rgba(79, 70, 229, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(88,101,242,0.28), transparent 28%),
+        radial-gradient(circle at top right, rgba(124,140,255,0.18), transparent 24%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      min-height: 100vh;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(0,0,0,0.18);
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.light .topbar {
+      background: rgba(255,255,255,0.55);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      font-size: 1rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button, .join-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button:hover, .join-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .ghost-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .join-btn {
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: var(--shadow);
+      display: inline-block;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 20px 36px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .hero-card, .stats-card, .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-card {
+      padding: 34px;
+      animation: fadeUp 0.8s ease;
+    }
+
+    .stats-card {
+      padding: 24px;
+      animation: fadeUp 1s ease;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 60ch;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+    }
+
+    body.light .stat {
+      background: rgba(255,255,255,0.55);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .updated {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px 60px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .section-card {
+      padding: 24px;
+      animation: fadeUp 0.8s ease;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .members {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 14px;
+    }
+
+    .member {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    body.light .member {
+      background: rgba(255,255,255,0.55);
+    }
+
+    .member:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    }
+
+    .member img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.16);
+    }
+
+    .member-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .member-name {
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .status-line, .activity-line {
+      color: var(--muted);
+      font-size: 0.92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      box-shadow: 0 0 12px currentColor;
+      flex-shrink: 0;
+    }
+
+    .online { color: #22c55e; background: #22c55e; }
+    .idle { color: #facc15; background: #facc15; }
+    .dnd { color: #ef4444; background: #ef4444; }
+    .offline { color: #94a3b8; background: #94a3b8; }
+
+    .voice-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .voice-channel {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+    }
+
+    body.light .voice-channel {
+      background: rgba(255,255,255,0.55);
+    }
+
+    .voice-name {
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .voice-members {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .voice-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(88,101,242,0.15);
+      border: 1px solid rgba(88,101,242,0.25);
+      font-size: 0.92rem;
+    }
+
+    .voice-pill img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 8px 0;
+    }
+
+    .glow {
+      position: fixed;
+      width: 340px;
+      height: 340px;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: -1;
+      animation: floatGlow 12s ease-in-out infinite alternate;
+    }
+
+    .glow.one {
+      background: #5865F2;
+      top: 10%;
+      left: -60px;
+    }
+
+    .glow.two {
+      background: #7c8cff;
+      right: -70px;
+      bottom: 8%;
+      animation-delay: 2s;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatGlow {
+      from {
+        transform: translateY(0) translateX(0) scale(1);
+      }
+      to {
+        transform: translateY(-24px) translateX(18px) scale(1.08);
+      }
+    }
+
+    @media (max-width: 920px) {
+      .hero, .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 34px;
+      }
+
+      .hero-card, .stats-card, .section-card {
+        border-radius: 22px;
+      }
+
+      .members {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        gap: 12px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Discord Community Portal</div>
+      <div class="controls">
+        <button class="ghost-btn" id="refreshBtn">Refresh</button>
+        <button class="ghost-btn" id="themeToggle">Toggle Theme</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">Live Server Widget</div>
+      <h1 id="server-name">Loading server...</h1>
+      <p class="subtitle" id="server-description">
+        Live community page powered by your Discord widget JSON.
+      </p>
+      <div class="hero-actions">
+        <a id="join-btn" class="join-btn" href="#" target="_blank">Join Server</a>
+        <button class="ghost-btn" id="scrollMembers">See Members</button>
+      </div>
+    </div>
+
+    <div class="stats-card">
+      <div class="section-title">Live Stats</div>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-label">Online Now</div>
+          <div class="stat-value" id="online-count">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Visible Members</div>
+          <div class="stat-value" id="visible-count">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Voice Channels</div>
+          <div class="stat-value" id="voice-count">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Auto Refresh</div>
+          <div class="stat-value">30s</div>
+        </div>
+      </div>
+      <div class="updated" id="last-updated">Last updated: --</div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="grid">
+      <section class="section-card">
+        <div class="section-title">🔊 Voice Channels</div>
+        <div id="voice-channels" class="voice-list">
+          <div class="empty">Loading voice channels...</div>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-title">🎮 Activity Feed</div>
+        <div id="activity-feed" class="voice-list">
+          <div class="empty">Loading activities...</div>
+        </div>
+      </section>
+    </div>
+
+    <section class="section-card" id="members-section" style="margin-top:24px;">
+      <div class="section-title">👥 Online Members</div>
+      <div id="members" class="members">
+        <div class="empty">Loading members...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const WIDGET_URL = "https://discord.com/api/guilds/1267622655201378314/widget.json";
+
+    const serverName = document.getElementById("server-name");
+    const onlineCount = document.getElementById("online-count");
+    const visibleCount = document.getElementById("visible-count");
+    const voiceCount = document.getElementById("voice-count");
+    const joinBtn = document.getElementById("join-btn");
+    const membersEl = document.getElementById("members");
+    const voiceEl = document.getElementById("voice-channels");
+    const activityEl = document.getElementById("activity-feed");
+    const lastUpdated = document.getElementById("last-updated");
+
+    function getStatusClass(status) {
+      if (status === "online") return "online";
+      if (status === "idle") return "idle";
+      if (status === "dnd") return "dnd";
+      return "offline";
+    }
+
+    function safeActivity(member) {
+      // Discord widget data may or may not include activity/game fields.
+      // This tries a few common possibilities safely.
+      if (member.game && typeof member.game === "object" && member.game.name) {
+        return member.game.name;
+      }
+      if (member.activity && typeof member.activity === "object" && member.activity.name) {
+        return member.activity.name;
+      }
+      if (member.activities && Array.isArray(member.activities) && member.activities.length > 0) {
+        const act = member.activities.find(a => a && a.name);
+        if (act) return act.name;
+      }
+      return null;
+    }
+
+    function formatTime() {
+      const now = new Date();
+      return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    function renderMembers(members = []) {
+      membersEl.innerHTML = "";
+
+      if (!members.length) {
+        membersEl.innerHTML = '<div class="empty">No visible members right now.</div>';
+        return;
+      }
+
+      members.forEach(member => {
+        const statusClass = getStatusClass(member.status);
+        const activity = safeActivity(member);
+
+        const card = document.createElement("div");
+        card.className = "member";
+        card.innerHTML = `
+          <img src="${member.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${member.username}">
+          <div class="member-info">
+            <div class="member-name">${member.username}</div>
+            <div class="status-row">
+              <span class="dot ${statusClass}"></span>
+              <span class="status-line">${member.status || "unknown"}</span>
+            </div>
+            <div class="activity-line">${activity ? "🎮 Playing " + activity : "No visible activity"}</div>
+          </div>
+        `;
+        membersEl.appendChild(card);
+      });
+    }
+
+    function renderActivities(members = []) {
+      activityEl.innerHTML = "";
+
+      const activeMembers = members
+        .map(member => ({
+          username: member.username,
+          avatar_url: member.avatar_url,
+          activity: safeActivity(member)
+        }))
+        .filter(m => m.activity);
+
+      if (!activeMembers.length) {
+        activityEl.innerHTML = '<div class="empty">No visible game/activity data from the widget.</div>';
+        return;
+      }
+
+      activeMembers.forEach(m => {
+        const row = document.createElement("div");
+        row.className = "voice-channel";
+        row.innerHTML = `
+          <div class="voice-members">
+            <span class="voice-pill">
+              <img src="${m.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${m.username}">
+              <strong>${m.username}</strong> — 🎮 ${m.activity}
+            </span>
+          </div>
+        `;
+        activityEl.appendChild(row);
+      });
+    }
+
+    function renderVoiceChannels(channels = [], members = []) {
+      voiceEl.innerHTML = "";
+
+      const voiceChannels = channels.filter(ch =>
+        typeof ch.name === "string" &&
+        (
+          ch.name.toLowerCase().includes("voice") ||
+          ch.position !== undefined ||
+          ch.id
+        )
+      );
+
+      if (!voiceChannels.length) {
+        voiceEl.innerHTML = '<div class="empty">No visible voice channels exposed by the widget.</div>';
+        return;
+      }
+
+      voiceChannels.forEach(channel => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "voice-channel";
+
+        // Some widget payloads include channel membership via member.channel_id
+        const inChannel = members.filter(m => m.channel_id && String(m.channel_id) === String(channel.id));
+
+        wrapper.innerHTML = `
+          <div class="voice-name">${channel.name}</div>
+          <div class="voice-members">
+            ${
+              inChannel.length
+                ? inChannel.map(m => `
+                    <span class="voice-pill">
+                      <img src="${m.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${m.username}">
+                      ${m.username}
+                    </span>
+                  `).join("")
+                : '<span class="empty">No visible members in this channel.</span>'
+            }
+          </div>
+        `;
+
+        voiceEl.appendChild(wrapper);
+      });
+
+      voiceCount.textContent = voiceChannels.length;
+    }
+
+    async function loadServer() {
+      try {
+        const res = await fetch(WIDGET_URL);
+        const data = await res.json();
+
+        const members = Array.isArray(data.members) ? data.members : [];
+        const channels = Array.isArray(data.channels) ? data.channels : [];
+
+        serverName.textContent = data.name || "Discord Server";
+        onlineCount.textContent = data.presence_count || 0;
+        visibleCount.textContent = members.length;
+        joinBtn.href = data.instant_invite || "#";
+
+        renderMembers(members);
+        renderActivities(members);
+        renderVoiceChannels(channels, members);
+
+        lastUpdated.textContent = "Last updated: " + formatTime();
+      } catch (err) {
+        console.error("Failed to load widget:", err);
+        serverName.textContent = "Failed to load server";
+        membersEl.innerHTML = '<div class="empty">Could not load member data.</div>';
+        voiceEl.innerHTML = '<div class="empty">Could not load voice channels.</div>';
+        activityEl.innerHTML = '<div class="empty">Could not load activity feed.</div>';
+      }
+    }
+
+    document.getElementById("refreshBtn").addEventListener("click", loadServer);
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
+    });
+
+    document.getElementById("scrollMembers").addEventListener("click", () => {
+      document.getElementById("members-section").scrollIntoView({ behavior: "smooth" });
+    });
+
+    if (localStorage.getItem("theme") === "light") {
+      document.body.classList.add("light");
+    }
+
+    loadServer();
+    setInterval(loadServer, 30000); // auto refresh every 30s
+  </script>
+</body>
+</html>
