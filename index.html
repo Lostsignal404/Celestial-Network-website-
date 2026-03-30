@@ -6,9 +6,9 @@
   <title>Celestial Network</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --bg2: #111936;
-      --sidebar: rgba(12, 18, 36, 0.78);
+      --bg: #090d18;
+      --bg2: #111827;
+      --sidebar: rgba(10, 15, 28, 0.82);
       --card: rgba(255,255,255,0.08);
       --card-2: rgba(255,255,255,0.05);
       --text: #ffffff;
@@ -16,17 +16,18 @@
       --accent: #ff5b2e;
       --accent2: #ff8a3d;
       --border: rgba(255,255,255,0.12);
-      --shadow: 0 16px 48px rgba(255, 91, 46, 0.22);
+      --shadow: 0 16px 48px rgba(255, 91, 46, 0.18);
       --success: #22c55e;
       --warn: #facc15;
       --danger: #ef4444;
       --offline: #94a3b8;
+      --glow: 0 0 18px rgba(255, 91, 46, 0.28);
     }
 
     body.light {
       --bg: #edf2ff;
       --bg2: #dce6ff;
-      --sidebar: rgba(255,255,255,0.78);
+      --sidebar: rgba(255,255,255,0.82);
       --card: rgba(255,255,255,0.78);
       --card-2: rgba(255,255,255,0.55);
       --text: #111827;
@@ -34,7 +35,8 @@
       --accent: #ff5b2e;
       --accent2: #ff8a3d;
       --border: rgba(17,24,39,0.08);
-      --shadow: 0 16px 48px rgba(255, 91, 46, 0.18);
+      --shadow: 0 16px 48px rgba(255, 91, 46, 0.14);
+      --glow: 0 0 18px rgba(255, 91, 46, 0.18);
     }
 
     * { box-sizing: border-box; }
@@ -45,8 +47,8 @@
       font-family: Inter, "Segoe UI", Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255,91,46,0.22), transparent 26%),
-        radial-gradient(circle at bottom right, rgba(255,138,61,0.16), transparent 22%),
+        radial-gradient(circle at top left, rgba(255,91,46,0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255,138,61,0.14), transparent 22%),
         linear-gradient(135deg, var(--bg), var(--bg2));
       min-height: 100vh;
       transition: background 0.35s ease, color 0.35s ease;
@@ -54,7 +56,7 @@
 
     .app {
       display: grid;
-      grid-template-columns: 280px 1fr;
+      grid-template-columns: 290px 1fr;
       min-height: 100vh;
     }
 
@@ -77,15 +79,15 @@
     }
 
     .sidebar-logo {
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
     }
 
     .logo-text {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       font-weight: 900;
       line-height: 1.1;
     }
@@ -93,7 +95,7 @@
     .sidebar-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: 24px;
       padding: 16px;
       margin-bottom: 18px;
       box-shadow: var(--shadow);
@@ -168,59 +170,56 @@
 
     .main {
       padding: 28px;
-      overflow-y: auto;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
+    .top-banner {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
       margin-bottom: 24px;
-    }
-
-    .hero-card, .panel {
-      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 28px;
+      background:
+        linear-gradient(120deg, rgba(255,91,46,0.18), rgba(255,138,61,0.08)),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        var(--card);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+      padding: 32px;
       animation: fadeUp 0.7s ease;
     }
 
-    .hero-card {
-      padding: 42px 34px;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
-        var(--card);
+    .top-banner::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255,91,46,0.18);
+      filter: blur(70px);
+      right: -70px;
+      top: -90px;
+      pointer-events: none;
     }
 
-    .hero-card::after {
+    .top-banner::after {
       content: "";
       position: absolute;
       width: 260px;
       height: 260px;
       border-radius: 50%;
-      background: rgba(255,138,61,0.20);
-      filter: blur(60px);
-      right: -60px;
-      top: -60px;
+      background: rgba(255,138,61,0.12);
+      filter: blur(70px);
+      left: -80px;
+      bottom: -100px;
       pointer-events: none;
     }
 
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: rgba(255,91,46,0.12);
-      filter: blur(60px);
-      left: -60px;
-      bottom: -60px;
-      pointer-events: none;
+    .banner-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
     }
 
     .eyebrow {
@@ -231,15 +230,38 @@
       margin-bottom: 14px;
     }
 
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.3rem, 5vw, 4.3rem);
+      line-height: 1.02;
+    }
+
+    .hero-text {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 62ch;
+      font-size: 1.03rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .hero-logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .hero-logo {
       width: 100%;
-      max-width: 700px;
+      max-width: 520px;
       display: block;
-      margin: 10px auto 20px;
       filter: drop-shadow(0 18px 40px rgba(0,0,0,0.45));
       animation: floatLogo 4s ease-in-out infinite;
-      position: relative;
-      z-index: 2;
     }
 
     @keyframes floatLogo {
@@ -247,60 +269,62 @@
       50% { transform: translateY(-6px); }
     }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      line-height: 1.04;
-    }
-
-    .hero-text {
-      color: var(--muted);
-      line-height: 1.75;
-      max-width: 62ch;
-      font-size: 1.02rem;
-      margin: 0 auto;
-    }
-
-    .hero-actions {
+    .quick-badges {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 24px;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .badge {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,91,46,0.12);
+      border: 1px solid rgba(255,91,46,0.24);
+      font-weight: 800;
+      font-size: 0.92rem;
+      box-shadow: var(--glow);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .hero-stat {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .hero-stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .hero-stat-value {
+      font-size: 1.85rem;
+      font-weight: 900;
     }
 
     .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
       padding: 24px;
+      animation: fadeUp 0.7s ease;
     }
 
     .section-title {
       font-size: 1.2rem;
       font-weight: 900;
       margin-bottom: 16px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .stat {
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
-
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 900;
     }
 
     .section-grid {
@@ -319,13 +343,14 @@
     .mini-card {
       background: var(--card-2);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 18px;
       transition: 0.18s ease;
     }
 
     .mini-card:hover {
       transform: translateY(-3px);
+      box-shadow: var(--shadow);
     }
 
     .mini-title {
@@ -337,6 +362,60 @@
       color: var(--muted);
       line-height: 1.65;
       font-size: 0.95rem;
+    }
+
+    .join-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .join-box {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      transition: 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .join-box::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 140px;
+      height: 140px;
+      background: rgba(255,91,46,0.12);
+      border-radius: 50%;
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .join-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .join-label {
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .join-value {
+      font-size: 1.45rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .join-subtext {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-size: 0.96rem;
     }
 
     .members {
@@ -358,6 +437,7 @@
 
     .member:hover {
       transform: translateY(-3px);
+      box-shadow: var(--shadow);
     }
 
     .member img {
@@ -365,6 +445,7 @@
       height: 56px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.08);
     }
 
     .member-name {
@@ -437,6 +518,48 @@
       border-radius: 50%;
     }
 
+    .rules-list {
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .staff-card {
+      text-align: center;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      transition: 0.18s ease;
+    }
+
+    .staff-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .staff-card img {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 14px;
+      border: 3px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    }
+
+    .staff-role {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
     .faq-item summary {
       cursor: pointer;
       font-weight: 800;
@@ -453,69 +576,8 @@
       margin-top: 12px;
     }
 
-    .rules-list {
-      display: grid;
-      gap: 12px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
     .empty {
       color: var(--muted);
-    }
-
-    .join-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .join-box {
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-      transition: 0.18s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .join-box::after {
-      content: "";
-      position: absolute;
-      inset: auto -40px -60px auto;
-      width: 140px;
-      height: 140px;
-      background: rgba(255,91,46,0.12);
-      border-radius: 50%;
-      filter: blur(30px);
-      pointer-events: none;
-    }
-
-    .join-box:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-    }
-
-    .join-label {
-      color: var(--muted);
-      font-size: 0.88rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-
-    .join-value {
-      font-size: 1.45rem;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    .join-subtext {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 16px;
-      font-size: 0.96rem;
     }
 
     .footer {
@@ -531,10 +593,6 @@
     }
 
     @media (max-width: 1100px) {
-      .hero, .section-grid, .cards-3, .join-grid {
-        grid-template-columns: 1fr;
-      }
-
       .app {
         grid-template-columns: 1fr;
       }
@@ -545,14 +603,21 @@
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
+
+      .banner-grid,
+      .section-grid,
+      .cards-3,
+      .join-grid,
+      .staff-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 640px) {
       .main { padding: 18px; }
-      .hero-card, .panel, .sidebar-card { border-radius: 22px; }
-      .stats { grid-template-columns: 1fr 1fr; }
+      .top-banner, .panel, .sidebar-card { border-radius: 22px; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
       .members { grid-template-columns: 1fr; }
-      .join-grid, .cards-3 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -560,7 +625,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="logo-wrap">
-        <div style="width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(135deg, #ff5b2e, #ff8a3d); box-shadow: 0 10px 30px rgba(0,0,0,0.25);"></div>
+        <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #ff5b2e, #ff8a3d); box-shadow: 0 10px 30px rgba(0,0,0,0.28);"></div>
         <div class="logo-text">Celestial Network</div>
       </div>
 
@@ -596,40 +661,53 @@
     </aside>
 
     <main class="main">
-      <section class="hero" id="home">
-        <div class="hero-card">
-          <div class="eyebrow">Minecraft Community Network</div>
-          <h1 id="serverName">Celestial Network</h1>
-          <div class="hero-text">
-            Welcome to Celestial Network — a Minecraft community where players can hang out, chat, join events, and stay connected through Discord.
-          </div>
-          <div class="hero-actions">
-            <a id="joinBtnHero" class="btn btn-primary" href="#" target="_blank">Join the Community</a>
-            <button class="btn btn-secondary" onclick="document.getElementById('members').scrollIntoView({behavior:'smooth'})">See Members</button>
-          </div>
-        </div>
+      <section class="top-banner" id="home">
+        <div class="banner-grid">
+          <div>
+            <div class="eyebrow">Minecraft Realm & Community Hub</div>
+            <h1 id="serverName">Celestial Network</h1>
+            <div class="hero-text">
+              Welcome to Celestial Network — a growing Minecraft community with custom features,
+              chill players, active staff, realm updates, and a Discord-powered hub for everything.
+            </div>
 
-        <div class="panel">
-          <div class="section-title">📊 Live Server Stats</div>
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-label">Online Now</div>
-              <div class="stat-value" id="onlineCount">0</div>
+            <div class="hero-actions">
+              <a id="joinBtnHero" class="btn btn-primary" href="#" target="_blank">Join the Community</a>
+              <a class="btn btn-secondary" href="https://escalmc.com/realms/S7wxR61oZ7SqD1KiuDfp/" target="_blank">Vote Here</a>
             </div>
-            <div class="stat">
-              <div class="stat-label">Visible Members</div>
-              <div class="stat-value" id="visibleCount">0</div>
+
+            <div class="quick-badges">
+              <div class="badge">🌌 Realm Released</div>
+              <div class="badge">📱 All Devices Allowed</div>
+              <div class="badge">🤖 AI Chat</div>
+              <div class="badge">⚔️ Amazing Kits</div>
             </div>
-            <div class="stat">
-              <div class="stat-label">Voice Channels</div>
-              <div class="stat-value" id="voiceCount">0</div>
+
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="hero-stat-label">Online Now</div>
+                <div class="hero-stat-value" id="onlineCount">0</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-label">Visible Members</div>
+                <div class="hero-stat-value" id="visibleCount">0</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-label">Voice Channels</div>
+                <div class="hero-stat-value" id="voiceCount">0</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-label">Auto Refresh</div>
+                <div class="hero-stat-value">15s</div>
+              </div>
             </div>
-            <div class="stat">
-              <div class="stat-label">Auto Refresh</div>
-              <div class="stat-value">30s</div>
-            </div>
+
+            <div style="margin-top:16px;color:var(--muted);" id="lastUpdated">Last updated: --</div>
           </div>
-          <div style="margin-top:16px;color:var(--muted);" id="lastUpdated">Last updated: --</div>
+
+          <div class="hero-logo-wrap">
+            <div style="width: 100%; max-width: 520px; aspect-ratio: 1; border-radius: 20px; background: linear-gradient(135deg, rgba(255,91,46,0.2), rgba(255,138,61,0.1)); display: flex; align-items: center; justify-content: center; font-size: 120px;">🌌</div>
+          </div>
         </div>
       </section>
 
@@ -638,22 +716,22 @@
         <div class="join-grid">
           <div class="join-box">
             <div class="join-label">🌌 Realm Access</div>
-            <div class="join-value" id="realmAccess">Available</div>
+            <div class="join-value">Available</div>
             <div class="join-subtext">Join the Discord server to get access details and community updates.</div>
-            <a id="joinBtnRealm" class="btn btn-primary" href="#" target="_blank">Get Started</a>
+            <button class="btn btn-secondary" id="copyRealmBtn">Copy Access Text</button>
           </div>
 
           <div class="join-box">
             <div class="join-label">📱 Supported Devices</div>
             <div class="join-value">All Devices</div>
-            <div class="join-subtext">Play and connect from supported Minecraft Bedrock devices.</div>
+            <div class="join-subtext">Play from supported Minecraft Bedrock devices and stay connected.</div>
           </div>
 
           <div class="join-box">
             <div class="join-label">🚀 Quick Join</div>
             <div class="join-value">Discord Invite</div>
-            <div class="join-subtext">The fastest way to join the Celestial community and stay updated.</div>
-            <button class="btn btn-secondary" id="copyInvite2">Copy Link</button>
+            <div class="join-subtext">The fastest way to join and receive all realm & community updates.</div>
+            <a id="joinBtnRealm" class="btn btn-primary" href="#" target="_blank">Join Discord</a>
           </div>
         </div>
       </section>
@@ -764,7 +842,7 @@
           </details>
           <details class="faq-item row-card">
             <summary>Does this page update automatically?</summary>
-            <div class="faq-answer">Yes — Celestial Network updates automatically every 30 seconds.</div>
+            <div class="faq-answer">Yes — Celestial Network updates automatically every 15 seconds.</div>
           </details>
           <details class="faq-item row-card">
             <summary>Can this website be hosted online?</summary>
@@ -774,7 +852,7 @@
       </section>
 
       <div class="footer">
-        Celestial Network • Powered by Discord Widget JSON • Auto-refresh enabled
+        Celestial Network • Powered by Discord Widget JSON • Auto-refresh enabled (15s)
       </div>
     </main>
   </div>
@@ -903,7 +981,7 @@
 
     function renderStaff(members) {
       staffList.innerHTML = "";
-      const featured = members.slice(0, 5);
+      const featured = members.slice(0, 3);
       if (!featured.length) {
         staffList.innerHTML = '<div class="empty">Loading featured members...</div>';
         return;
@@ -911,18 +989,14 @@
 
       featured.forEach(member => {
         const card = document.createElement("div");
-        card.className = "row-card";
+        card.className = "staff-card";
         const status = getStatusClass(member.status);
         card.innerHTML = `
-          <div style="display:flex;align-items:center;gap:12px;">
-            <img src="${member.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${member.username}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">
-            <div>
-              <div class="mini-title">${member.username}</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:0.92rem;color:var(--muted);">
-                <span class="dot ${status}"></span>
-                ${member.status || "unknown"}
-              </div>
-            </div>
+          <img src="${member.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${member.username}">
+          <div style="font-weight: 900; margin-bottom: 4px;">${member.username}</div>
+          <div class="staff-role">
+            <span class="dot ${status}" style="display: inline-block;"></span>
+            ${member.status || "unknown"}
           </div>
         `;
         staffList.appendChild(card);
@@ -963,7 +1037,7 @@
     document.getElementById("copyInviteBtn").addEventListener("click", () => {
       if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
     });
-    document.getElementById("copyInvite2").addEventListener("click", () => {
+    document.getElementById("copyRealmBtn").addEventListener("click", () => {
       if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
     });
     document.getElementById("themeToggle").addEventListener("click", () => {
@@ -973,7 +1047,7 @@
 
     if (localStorage.getItem("theme") === "light") document.body.classList.add("light");
     loadServer();
-    setInterval(loadServer, 30000);
+    setInterval(loadServer, 15000);
   </script>
 </body>
 </html>
