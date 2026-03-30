@@ -613,11 +613,78 @@
       }
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 24px 72px rgba(0, 0, 0, 0.48);
+      max-width: 450px;
+      width: 100%;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-size: 1.24rem;
+      font-weight: 900;
+    }
+
+    .modal-close {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.4rem;
+      transition: 0.18s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--card-2);
+      transform: rotate(90deg);
+    }
+
     @media (max-width: 640px) {
       .main { padding: 18px; }
       .top-banner, .panel, .sidebar-card { border-radius: 22px; }
       .hero-stats { grid-template-columns: 1fr 1fr; }
       .members { grid-template-columns: 1fr; }
+      .modal-content {
+        max-width: 95vw;
+        padding: 20px;
+      }
     }
   </style>
 </head>
@@ -648,6 +715,7 @@
         <div class="sidebar-title">Quick Actions</div>
         <div class="sidebar-buttons">
           <a id="joinBtnSide" class="btn btn-primary" href="#" target="_blank">Join Discord</a>
+          <button class="btn btn-secondary" id="widgetBtn">Discord Widget</button>
           <button class="btn btn-secondary" id="copyInviteBtn">Copy Invite</button>
           <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
           <button class="btn btn-secondary" id="themeToggle">Toggle Theme</button>
@@ -857,6 +925,16 @@
     </main>
   </div>
 
+  <div id="widgetModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Server Widget</div>
+        <div class="modal-close" id="closeWidgetBtn">✕</div>
+      </div>
+      <iframe src="https://discord.com/widget?id=1267622655201378314&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    </div>
+  </div>
+
   <script>
     const WIDGET_URL = "https://discord.com/api/guilds/1267622655201378314/widget.json";
 
@@ -1046,6 +1124,25 @@
     });
 
     if (localStorage.getItem("theme") === "light") document.body.classList.add("light");
+    
+    const widgetModal = document.getElementById("widgetModal");
+    const widgetBtn = document.getElementById("widgetBtn");
+    const closeWidgetBtn = document.getElementById("closeWidgetBtn");
+    
+    widgetBtn.addEventListener("click", () => {
+      widgetModal.classList.add("active");
+    });
+    
+    closeWidgetBtn.addEventListener("click", () => {
+      widgetModal.classList.remove("active");
+    });
+    
+    widgetModal.addEventListener("click", (e) => {
+      if (e.target === widgetModal) {
+        widgetModal.classList.remove("active");
+      }
+    });
+    
     loadServer();
     setInterval(loadServer, 15000);
   </script>
