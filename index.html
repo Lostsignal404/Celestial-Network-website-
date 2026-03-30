@@ -121,6 +121,7 @@
       border: 1px solid transparent;
       transition: 0.18s ease;
       font-weight: 700;
+      font-size: 0.92rem;
     }
 
     .nav-links a:hover {
@@ -167,6 +168,7 @@
 
     .main {
       padding: 28px;
+      overflow-y: auto;
     }
 
     .hero {
@@ -186,22 +188,38 @@
     }
 
     .hero-card {
-      padding: 34px;
+      padding: 42px 34px;
       position: relative;
       overflow: hidden;
       text-align: center;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
+        var(--card);
     }
 
     .hero-card::after {
       content: "";
       position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(255,138,61,0.20);
+      filter: blur(60px);
+      right: -60px;
+      top: -60px;
+      pointer-events: none;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
       width: 240px;
       height: 240px;
       border-radius: 50%;
-      background: rgba(255,138,61,0.18);
-      filter: blur(50px);
-      right: -60px;
-      top: -60px;
+      background: rgba(255,91,46,0.12);
+      filter: blur(60px);
+      left: -60px;
+      bottom: -60px;
       pointer-events: none;
     }
 
@@ -211,6 +229,22 @@
       letter-spacing: 0.14em;
       font-size: 0.82rem;
       margin-bottom: 14px;
+    }
+
+    .hero-logo {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      margin: 10px auto 20px;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,0.45));
+      animation: floatLogo 4s ease-in-out infinite;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
     }
 
     h1 {
@@ -430,6 +464,60 @@
       color: var(--muted);
     }
 
+    .join-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .join-box {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      transition: 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .join-box::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 140px;
+      height: 140px;
+      background: rgba(255,91,46,0.12);
+      border-radius: 50%;
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .join-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .join-label {
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .join-value {
+      font-size: 1.45rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .join-subtext {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-size: 0.96rem;
+    }
+
     .footer {
       text-align: center;
       color: var(--muted);
@@ -443,7 +531,7 @@
     }
 
     @media (max-width: 1100px) {
-      .hero, .section-grid, .cards-3 {
+      .hero, .section-grid, .cards-3, .join-grid {
         grid-template-columns: 1fr;
       }
 
@@ -464,6 +552,7 @@
       .hero-card, .panel, .sidebar-card { border-radius: 22px; }
       .stats { grid-template-columns: 1fr 1fr; }
       .members { grid-template-columns: 1fr; }
+      .join-grid, .cards-3 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -479,7 +568,9 @@
         <div class="sidebar-title">Navigation</div>
         <div class="nav-links">
           <a href="#home">Home</a>
+          <a href="#join-info">Join Info</a>
           <a href="#features">Why Join</a>
+          <a href="#before-joining">Before Joining</a>
           <a href="#voice">Voice Channels</a>
           <a href="#members">Members</a>
           <a href="#staff">Staff</a>
@@ -542,21 +633,78 @@
         </div>
       </section>
 
+      <section class="panel" id="join-info" style="margin-bottom:24px;">
+        <div class="section-title">🎮 Join Celestial Network</div>
+        <div class="join-grid">
+          <div class="join-box">
+            <div class="join-label">🌌 Realm Access</div>
+            <div class="join-value" id="realmAccess">Available</div>
+            <div class="join-subtext">Join the Discord server to get access details and community updates.</div>
+            <a id="joinBtnRealm" class="btn btn-primary" href="#" target="_blank">Get Started</a>
+          </div>
+
+          <div class="join-box">
+            <div class="join-label">📱 Supported Devices</div>
+            <div class="join-value">All Devices</div>
+            <div class="join-subtext">Play and connect from supported Minecraft Bedrock devices.</div>
+          </div>
+
+          <div class="join-box">
+            <div class="join-label">🚀 Quick Join</div>
+            <div class="join-value">Discord Invite</div>
+            <div class="join-subtext">The fastest way to join the Celestial community and stay updated.</div>
+            <button class="btn btn-secondary" id="copyInvite2">Copy Link</button>
+          </div>
+        </div>
+      </section>
+
       <section class="panel" id="features" style="margin-bottom:24px;">
         <div class="section-title">✨ Why Join Celestial Network?</div>
         <div class="cards-3">
           <div class="mini-card">
-            <div class="mini-title">⚔️ PvP & Competition</div>
-            <div class="mini-text">Battle players, rise through ranks, and prove yourself across the network.</div>
+            <div class="mini-title">🖥️ Amazing Mods</div>
+            <div class="mini-text">Enjoy custom features and improved gameplay across the Celestial experience.</div>
           </div>
           <div class="mini-card">
-            <div class="mini-title">🏰 Community & Events</div>
-            <div class="mini-text">Join community events, seasonal activities, and fun server challenges.</div>
+            <div class="mini-title">🤖 AI Chat</div>
+            <div class="mini-text">Talk, hang out, and explore smart chat features inside the community.</div>
           </div>
           <div class="mini-card">
-            <div class="mini-title">🌌 Network Community</div>
-            <div class="mini-text">Stay connected with the Celestial Network player base through Discord and live updates.</div>
+            <div class="mini-title">✨ Active Staff</div>
+            <div class="mini-text">Helpful staff are around to support the server and keep things running smoothly.</div>
           </div>
+          <div class="mini-card">
+            <div class="mini-title">⚔️ Amazing Kits</div>
+            <div class="mini-text">Unlock fun kits and tools to help you start and progress faster.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">🛒 Great Market</div>
+            <div class="mini-text">Trade, buy, and build your own path with the in-game economy and market.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">👾 Secure Realm</div>
+            <div class="mini-text">A safer realm setup designed to keep the experience fun and protected.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">⁉️ Hidden Easter Eggs</div>
+            <div class="mini-text">Find secrets, surprises, and hidden little details around the realm.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">😎 Chill Community</div>
+            <div class="mini-text">A laid-back place to play, talk, and build with others at your own pace.</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">📱 All Devices Allowed</div>
+            <div class="mini-text">Play and connect from whatever device you use to enjoy Minecraft.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="before-joining" style="margin-bottom:24px;">
+        <div class="section-title">📢 Before Joining</div>
+        <div class="rules-list">
+          <div><strong>Celestial Network is still growing</strong> — so there may not always be active players online at every moment.</div>
+          <div>Even so, the staff would still love to build a semi-active playerbase and welcoming community inside both the Realm and Discord Server over time.</div>
         </div>
       </section>
 
@@ -640,6 +788,7 @@
     const voiceCount = document.getElementById("voiceCount");
     const joinBtnHero = document.getElementById("joinBtnHero");
     const joinBtnSide = document.getElementById("joinBtnSide");
+    const joinBtnRealm = document.getElementById("joinBtnRealm");
     const membersGrid = document.getElementById("membersGrid");
     const voiceChannels = document.getElementById("voiceChannels");
     const activityFeed = document.getElementById("activityFeed");
@@ -667,16 +816,11 @@
     }
 
     function formatTime() {
-      return new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      });
+      return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
     }
 
     function renderMembers(members) {
       membersGrid.innerHTML = "";
-
       if (!members.length) {
         membersGrid.innerHTML = '<div class="empty">No visible members right now.</div>';
         return;
@@ -685,7 +829,6 @@
       members.forEach(member => {
         const statusClass = getStatusClass(member.status);
         const activity = getActivity(member);
-
         const card = document.createElement("div");
         card.className = "member";
         card.innerHTML = `
@@ -705,13 +848,8 @@
 
     function renderActivities(members) {
       activityFeed.innerHTML = "";
-
       const activities = members
-        .map(member => ({
-          username: member.username,
-          avatar_url: member.avatar_url,
-          activity: getActivity(member)
-        }))
+        .map(member => ({ username: member.username, avatar_url: member.avatar_url, activity: getActivity(member) }))
         .filter(m => m.activity);
 
       if (!activities.length) {
@@ -736,10 +874,8 @@
 
     function renderVoiceChannels(channels, members) {
       voiceChannels.innerHTML = "";
-
       const voice = channels.filter(ch =>
-        typeof ch.name === "string" &&
-        (ch.name.toLowerCase().includes("voice") || ch.position !== undefined || ch.id)
+        typeof ch.name === "string" && (ch.name.toLowerCase().includes("voice") || ch.position !== undefined || ch.id)
       );
 
       if (!voice.length) {
@@ -750,36 +886,24 @@
       voice.forEach(channel => {
         const card = document.createElement("div");
         card.className = "row-card";
-
         const inChannel = members.filter(m => m.channel_id && String(m.channel_id) === String(channel.id));
-
         card.innerHTML = `
           <div class="row-title">${channel.name}</div>
           <div class="pill-wrap">
-            ${
-              inChannel.length
-                ? inChannel.map(m => `
-                    <span class="pill">
-                      <img src="${m.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${m.username}">
-                      ${m.username}
-                    </span>
-                  `).join("")
-                : '<span class="empty">No visible members in this channel.</span>'
+            ${inChannel.length
+              ? inChannel.map(m => `<span class="pill"><img src="${m.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${m.username}">${m.username}</span>`).join("")
+              : '<span class="empty">No visible members in this channel.</span>'
             }
           </div>
         `;
-
         voiceChannels.appendChild(card);
       });
-
       voiceCount.textContent = voice.length;
     }
 
     function renderStaff(members) {
       staffList.innerHTML = "";
-
       const featured = members.slice(0, 5);
-
       if (!featured.length) {
         staffList.innerHTML = '<div class="empty">Loading featured members...</div>';
         return;
@@ -809,7 +933,6 @@
       try {
         const res = await fetch(WIDGET_URL);
         const data = await res.json();
-
         const members = Array.isArray(data.members) ? data.members : [];
         const channels = Array.isArray(data.channels) ? data.channels : [];
 
@@ -820,6 +943,7 @@
         
         joinBtnHero.href = currentInvite;
         joinBtnSide.href = currentInvite;
+        joinBtnRealm.href = currentInvite;
 
         sidebarStatus.innerHTML = `<div style="font-size:0.9rem;"><strong>${data.presence_count || 0}</strong> online</div>`;
 
@@ -832,28 +956,22 @@
       } catch (err) {
         console.error("Failed to load widget:", err);
         serverName.textContent = "Failed to load server";
-        membersGrid.innerHTML = '<div class="empty">Could not load member data.</div>';
       }
     }
 
     document.getElementById("refreshBtn").addEventListener("click", loadServer);
-
     document.getElementById("copyInviteBtn").addEventListener("click", () => {
-      if (currentInvite) {
-        navigator.clipboard.writeText(currentInvite);
-        alert("Invite link copied to clipboard!");
-      }
+      if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
     });
-
+    document.getElementById("copyInvite2").addEventListener("click", () => {
+      if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
+    });
     document.getElementById("themeToggle").addEventListener("click", () => {
       document.body.classList.toggle("light");
       localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
     });
 
-    if (localStorage.getItem("theme") === "light") {
-      document.body.classList.add("light");
-    }
-
+    if (localStorage.getItem("theme") === "light") document.body.classList.add("light");
     loadServer();
     setInterval(loadServer, 30000);
   </script>
