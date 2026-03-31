@@ -1225,9 +1225,21 @@
         renderStaff(members);
 
         lastUpdated.textContent = "Last updated: " + formatTime();
+        
+        // Hide loader after successful load
+        const loader = document.getElementById("loader");
+        if (loader) {
+          loader.classList.add("hidden");
+        }
       } catch (err) {
         console.error("Failed to load widget:", err);
         serverName.textContent = "Failed to load server";
+        
+        // Still hide loader even on error
+        const loader = document.getElementById("loader");
+        if (loader) {
+          loader.classList.add("hidden");
+        }
       }
     }
 
@@ -1265,6 +1277,14 @@
     
     loadServer();
     setInterval(loadServer, 15000);
+    
+    // Fallback: Hide loader after 3 seconds if not already hidden
+    setTimeout(() => {
+      const loader = document.getElementById("loader");
+      if (loader && !loader.classList.contains("hidden")) {
+        loader.classList.add("hidden");
+      }
+    }, 3000);
   </script>
 </body>
 </html>
