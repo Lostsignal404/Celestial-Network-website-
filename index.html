@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Celestial Network</title>
   <meta name="description" content="Official Celestial Network website. Join the Discord, access the Realm, view live members, and stay updated.">
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsW5vL5d4E8mZjGvjLqRZ7K_00000000",
+      authDomain: "celestial-network.firebaseapp.com",
+      databaseURL: "https://celestial-network.firebaseio.com",
+      projectId: "celestial-network",
+      storageBucket: "celestial-network.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      window.firebaseDB = getDatabase(app);
+      window.firebaseRef = ref;
+      window.firebaseSet = set;
+      window.firebaseOnValue = onValue;
+      console.log("Firebase loaded successfully");
+    } catch (error) {
+      console.warn("Firebase initialization failed (optional feature):", error);
+    }
+  </script>
   <style>
     :root {
       --bg: #060911;
@@ -847,6 +873,128 @@
       font-weight: 900;
     }
 
+    /* Realm Status Badge */
+    #realmStatusBadge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      background: rgba(34,197,94,0.18);
+      color: #22c55e;
+      border: 1px solid rgba(34,197,94,0.35);
+      margin-bottom: 12px;
+    }
+
+    #realmCustomMessage {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      padding: 12px;
+      background: var(--card2);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    #openAdminPanelBtn {
+      background: linear-gradient(135deg, rgba(255,91,46,0.2), rgba(255,138,61,0.1));
+      border: 1px solid rgba(255,91,46,0.4);
+      color: var(--accent);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    #openAdminPanelBtn:hover {
+      background: linear-gradient(135deg, rgba(255,91,46,0.3), rgba(255,138,61,0.2));
+      border-color: rgba(255,91,46,0.6);
+    }
+
+    .admin-input-group {
+      margin-bottom: 14px;
+    }
+
+    .admin-input-label {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      display: block;
+      color: var(--text);
+    }
+
+    .admin-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .admin-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255,91,46,0.08);
+    }
+
+    .admin-button-group {
+      display: flex;
+      gap: 10px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .admin-btn {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .admin-btn:hover {
+      background: var(--card2);
+      transform: translateY(-2px);
+    }
+
+    .admin-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      box-shadow: 0 0 18px rgba(255,91,46,0.3);
+    }
+
+    #adminSaveStatus {
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 10px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    #staffLoginError {
+      display: none;
+      color: var(--danger);
+      font-weight: 700;
+      padding: 10px;
+      background: rgba(239,68,68,0.12);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
     @media (max-width: 1100px) {
       .app { grid-template-columns: 1fr; }
       .sidebar {
@@ -923,6 +1071,7 @@
           <button class="btn btn-secondary" id="copyInviteBtn">Copy Invite</button>
           <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
           <button class="btn btn-secondary" id="themeToggle">Toggle Theme</button>
+          <button id="openAdminPanelBtn">⚙️ Staff Panel</button>
         </div>
       </div>
 
@@ -938,6 +1087,11 @@
           <div>
             <div class="eyebrow">Minecraft Realm & Community Hub</div>
             <h1 id="serverName">Celestial Network</h1>
+            
+            <!-- Realm Status Display -->
+            <div id="realmStatusBadge" style="display: inline-flex; padding: 10px 16px; border-radius: 999px; font-weight: 800; background: rgba(34,197,94,0.18); color: #22c55e; border: 1px solid rgba(34,197,94,0.35);">🟢 Realm Open</div>
+            <div id="realmCustomMessage" style="color: rgba(255,255,255,0.72); font-size: 0.95rem; line-height: 1.6; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); margin: 12px 0;">Welcome to Celestial Network.</div>
+            
             <div class="hero-text">
               Welcome to Celestial Network — a growing Minecraft community with custom features,
               chill players, active staff, realm updates, and a Discord-powered hub for everything.
@@ -1155,6 +1309,50 @@
     </div>
   </div>
 
+  <!-- Staff Login Modal -->
+  <div id="staffLoginModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Staff Login</div>
+        <div class="modal-close" id="closeStaffLoginBtn">✕</div>
+      </div>
+      <div id="staffLoginError">Invalid password. Please try again.</div>
+      <div class="admin-input-group">
+        <label class="admin-input-label">Staff Password</label>
+        <input type="password" id="staffPasswordInput" class="admin-input" placeholder="Enter staff password...">
+      </div>
+      <div class="modal-actions">
+        <button id="staffLoginBtn" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Staff Admin Modal -->
+  <div id="staffAdminModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Admin Panel</div>
+        <div class="modal-close" id="closeStaffAdminBtn">✕</div>
+      </div>
+      <div class="admin-input-group">
+        <label class="admin-input-label">Realm Status</label>
+        <div class="admin-button-group">
+          <button id="setRealmOpenBtn" class="admin-btn active">🟢 Realm Open</button>
+          <button id="setRealmClosedBtn" class="admin-btn">🔴 Realm Closed</button>
+        </div>
+      </div>
+      <div class="admin-input-group">
+        <label class="admin-input-label">Custom Message</label>
+        <input type="text" id="adminCustomMessageInput" class="admin-input" placeholder="Enter custom message...">
+      </div>
+      <div class="modal-actions">
+        <button id="saveRealmStatusBtn" class="btn btn-primary">Save Status</button>
+        <button id="logoutStaffBtn" class="btn btn-secondary">Logout</button>
+      </div>
+      <div id="adminSaveStatus"></div>
+    </div>
+  </div>
+
   <script>
     const WIDGET_URL = "https://discord.com/api/guilds/1267622655201378314/widget.json";
 
@@ -1173,7 +1371,34 @@
     const lastUpdated = document.getElementById("lastUpdated");
     const sidebarStatus = document.getElementById("sidebarStatus");
 
+    // REALM STATUS ELEMENTS
+    const realmStatusBadge = document.getElementById("realmStatusBadge");
+    const realmCustomMessage = document.getElementById("realmCustomMessage");
+    const openAdminPanelBtn = document.getElementById("openAdminPanelBtn");
+
+    // LOGIN MODAL
+    const staffLoginModal = document.getElementById("staffLoginModal");
+    const closeStaffLoginBtn = document.getElementById("closeStaffLoginBtn");
+    const staffPasswordInput = document.getElementById("staffPasswordInput");
+    const staffLoginBtn = document.getElementById("staffLoginBtn");
+    const staffLoginError = document.getElementById("staffLoginError");
+
+    // ADMIN MODAL
+    const staffAdminModal = document.getElementById("staffAdminModal");
+    const closeStaffAdminBtn = document.getElementById("closeStaffAdminBtn");
+    const setRealmOpenBtn = document.getElementById("setRealmOpenBtn");
+    const setRealmClosedBtn = document.getElementById("setRealmClosedBtn");
+    const adminCustomMessageInput = document.getElementById("adminCustomMessageInput");
+    const saveRealmStatusBtn = document.getElementById("saveRealmStatusBtn");
+    const logoutStaffBtn = document.getElementById("logoutStaffBtn");
+    const adminSaveStatus = document.getElementById("adminSaveStatus");
+
     let currentInvite = "";
+
+    // ⚠️ Simple page password (not fully secure)
+    const STAFF_PASSWORD = "63656";
+
+    let adminSelectedStatus = "open";
 
     function getStatusClass(status) {
       if (status === "online") return "online";
@@ -1278,7 +1503,7 @@
       voiceCount.textContent = voice.length;
     }
 
-    function renderStaff(members) {
+    function renderStaff() {
       staffList.innerHTML = "";
       const owners = [
         { name: "Nfugo", role: "Owner", emoji: "👑" },
@@ -1308,8 +1533,8 @@
         serverName.textContent = data.name || "Discord Server";
         onlineCount.textContent = data.presence_count || 0;
         visibleCount.textContent = members.length;
-        currentInvite = data.instant_invite || "";
-        
+        currentInvite = data.instant_invite || "#";
+
         joinBtnHero.href = currentInvite;
         joinBtnSide.href = currentInvite;
         joinBtnRealm.href = currentInvite;
@@ -1320,50 +1545,179 @@
         renderMembers(members);
         renderActivities(members);
         renderVoiceChannels(channels, members);
-        renderStaff(members);
+        renderStaff();
 
         lastUpdated.textContent = "Last updated: " + formatTime();
-        
-        // Hide loader after successful load
+
         const loader = document.getElementById("loader");
-        if (loader) {
-          loader.classList.add("hidden");
-        }
+        if (loader) loader.classList.add("hidden");
       } catch (err) {
         console.error("Failed to load widget:", err);
         serverName.textContent = "Failed to load server";
-        
-        // Still hide loader even on error
+
         const loader = document.getElementById("loader");
-        if (loader) {
-          loader.classList.add("hidden");
-        }
+        if (loader) loader.classList.add("hidden");
       }
     }
 
-    document.getElementById("refreshBtn").addEventListener("click", loadServer);
-    document.getElementById("copyInviteBtn").addEventListener("click", () => {
-      if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
+    // ===== REALM STATUS UI =====
+    function updateRealmStatusUI(status, message) {
+      if (status === "closed") {
+        realmStatusBadge.textContent = "🔴 Realm Closed";
+        realmStatusBadge.style.background = "rgba(239,68,68,0.18)";
+        realmStatusBadge.style.color = "#ef4444";
+        realmStatusBadge.style.border = "1px solid rgba(239,68,68,0.35)";
+      } else {
+        realmStatusBadge.textContent = "🟢 Realm Open";
+        realmStatusBadge.style.background = "rgba(34,197,94,0.18)";
+        realmStatusBadge.style.color = "#22c55e";
+        realmStatusBadge.style.border = "1px solid rgba(34,197,94,0.35)";
+      }
+
+      realmCustomMessage.textContent = message || "Welcome to Celestial Network.";
+    }
+
+    // ===== FIREBASE LIVE LOAD =====
+    function startRealmLiveSync() {
+      if (!window.firebaseDB || !window.firebaseRef || !window.firebaseOnValue) {
+        console.warn("Firebase not loaded yet.");
+        return;
+      }
+
+      const realmRef = window.firebaseRef(window.firebaseDB, "realmStatus");
+
+      window.firebaseOnValue(realmRef, (snapshot) => {
+        const data = snapshot.val();
+
+        if (data) {
+          const status = data.status || "open";
+          const message = data.message || "Welcome to Celestial Network.";
+
+          updateRealmStatusUI(status, message);
+          adminSelectedStatus = status;
+          adminCustomMessageInput.value = message;
+        } else {
+          updateRealmStatusUI("open", "Welcome to Celestial Network.");
+        }
+      });
+    }
+
+    async function saveRealmStatusToFirebase() {
+      if (!window.firebaseDB || !window.firebaseRef || !window.firebaseSet) {
+        adminSaveStatus.textContent = "Firebase is not connected.";
+        return;
+      }
+
+      const message = adminCustomMessageInput.value.trim() || "Welcome to Celestial Network.";
+
+      adminSaveStatus.textContent = "Saving...";
+
+      try {
+        const realmRef = window.firebaseRef(window.firebaseDB, "realmStatus");
+        await window.firebaseSet(realmRef, {
+          status: adminSelectedStatus,
+          message: message,
+          updatedAt: Date.now()
+        });
+
+        adminSaveStatus.textContent = "✅ Saved live successfully.";
+        updateRealmStatusUI(adminSelectedStatus, message);
+      } catch (error) {
+        console.error(error);
+        adminSaveStatus.textContent = "❌ Failed to save.";
+      }
+    }
+
+    // ===== STAFF PANEL =====
+    openAdminPanelBtn.addEventListener("click", () => {
+      staffLoginError.style.display = "none";
+      staffPasswordInput.value = "";
+      staffLoginModal.classList.add("active");
     });
+
+    closeStaffLoginBtn.addEventListener("click", () => {
+      staffLoginModal.classList.remove("active");
+    });
+
+    closeStaffAdminBtn.addEventListener("click", () => {
+      staffAdminModal.classList.remove("active");
+    });
+
+    staffLoginBtn.addEventListener("click", () => {
+      const entered = staffPasswordInput.value.trim();
+
+      if (entered === STAFF_PASSWORD) {
+        sessionStorage.setItem("staffUnlocked", "true");
+        staffLoginModal.classList.remove("active");
+        staffAdminModal.classList.add("active");
+        staffLoginError.style.display = "none";
+      } else {
+        staffLoginError.style.display = "block";
+      }
+    });
+
+    setRealmOpenBtn.addEventListener("click", () => {
+      adminSelectedStatus = "open";
+      setRealmOpenBtn.classList.add("active");
+      setRealmClosedBtn.classList.remove("active");
+      adminSaveStatus.textContent = "Selected: Realm Open";
+    });
+
+    setRealmClosedBtn.addEventListener("click", () => {
+      adminSelectedStatus = "closed";
+      setRealmClosedBtn.classList.add("active");
+      setRealmOpenBtn.classList.remove("active");
+      adminSaveStatus.textContent = "Selected: Realm Closed";
+    });
+
+    saveRealmStatusBtn.addEventListener("click", saveRealmStatusToFirebase);
+
+    logoutStaffBtn.addEventListener("click", () => {
+      sessionStorage.removeItem("staffUnlocked");
+      staffAdminModal.classList.remove("active");
+    });
+
+    // Modal outside click close
+    staffLoginModal.addEventListener("click", (e) => {
+      if (e.target === staffLoginModal) staffLoginModal.classList.remove("active");
+    });
+
+    staffAdminModal.addEventListener("click", (e) => {
+      if (e.target === staffAdminModal) staffAdminModal.classList.remove("active");
+    });
+
+    // ===== OTHER BUTTONS =====
+    document.getElementById("refreshBtn").addEventListener("click", loadServer);
+
+    document.getElementById("copyInviteBtn").addEventListener("click", () => {
+      if (currentInvite) {
+        navigator.clipboard.writeText(currentInvite);
+        alert("Invite link copied!");
+      }
+    });
+
     document.getElementById("themeToggle").addEventListener("click", () => {
       document.body.classList.toggle("light");
       localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
     });
 
-    if (localStorage.getItem("theme") === "light") document.body.classList.add("light");
-    
+    if (localStorage.getItem("theme") === "light") {
+      document.body.classList.add("light");
+    }
+
+    // Widget Modal
     const widgetModal = document.getElementById("widgetModal");
     const widgetBtn = document.getElementById("widgetBtn");
     const closeWidgetBtn = document.getElementById("closeWidgetBtn");
-    
+
     widgetBtn.addEventListener("click", () => {
       widgetModal.classList.add("active");
     });
-    
+
     closeWidgetBtn.addEventListener("click", () => {
       widgetModal.classList.remove("active");
     });
-    
+
     widgetModal.addEventListener("click", (e) => {
       if (e.target === widgetModal) {
         widgetModal.classList.remove("active");
@@ -1374,43 +1728,52 @@
     const appealsModal = document.getElementById("appealsModal");
     const appealsBtn = document.getElementById("appealsBtn");
     const closeAppealsBtn = document.getElementById("closeAppealsBtn");
-    
+
     appealsBtn.addEventListener("click", () => {
       appealsModal.classList.add("active");
     });
-    
+
     closeAppealsBtn.addEventListener("click", () => {
       appealsModal.classList.remove("active");
     });
-    
+
     appealsModal.addEventListener("click", (e) => {
       if (e.target === appealsModal) {
         appealsModal.classList.remove("active");
       }
     });
-    
+
+    // Mobile menu
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.querySelector(".sidebar");
+
+    if (menuToggle && sidebar) {
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        document.body.classList.toggle("menu-open");
+      });
+    }
+
+    // Initial load
     loadServer();
     setInterval(loadServer, 15000);
-    
-    // Hide loader immediately after page loads
+
+    // Wait for Firebase then start live sync
     window.addEventListener("load", () => {
       setTimeout(() => {
+        startRealmLiveSync();
+
         const loader = document.getElementById("loader");
-        if (loader) {
-          loader.classList.add("hidden");
-          console.log("Loader hidden on page load");
-        }
-      }, 500);
+        if (loader) loader.classList.add("hidden");
+      }, 700);
     });
-    
-    // Also hide with timeout as backup (1 second)
+
     setTimeout(() => {
       const loader = document.getElementById("loader");
       if (loader && !loader.classList.contains("hidden")) {
         loader.classList.add("hidden");
-        console.log("Loader hidden by timeout");
       }
-    }, 1000);
+    }, 1200);
   </script>
 </body>
 </html>
