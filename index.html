@@ -642,6 +642,46 @@
       font-size: 0.9rem;
     }
 
+    .owner-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,91,46,0.2), rgba(255,138,61,0.12)) !important;
+      border: 2px solid rgba(255,91,46,0.3);
+      box-shadow: 0 0 24px rgba(255,91,46,0.25), inset 0 0 20px rgba(255,91,46,0.08) !important;
+      transition: all 0.3s ease;
+    }
+
+    .owner-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 32px rgba(255,91,46,0.35), inset 0 0 20px rgba(255,91,46,0.12) !important;
+      border-color: rgba(255,91,46,0.5);
+    }
+
+    .owner-emoji {
+      font-size: 3.2rem;
+      margin-bottom: 14px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .owner-name {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .owner-role {
+      color: var(--accent3);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.85rem;
+    }
+
     .faq-item summary {
       cursor: pointer;
       font-weight: 800;
@@ -1046,9 +1086,9 @@
 
       <section class="section-grid">
         <section class="panel" id="staff">
-          <div class="section-title">🛡️ Staff / Featured Members</div>
+          <div class="section-title">� Leadership / Owners</div>
           <div id="staffList" class="staff-list">
-            <div class="empty">Loading featured members...</div>
+            <div class="empty">Loading owners...</div>
           </div>
         </section>
 
@@ -1240,23 +1280,19 @@
 
     function renderStaff(members) {
       staffList.innerHTML = "";
-      const featured = members.slice(0, 3);
-      if (!featured.length) {
-        staffList.innerHTML = '<div class="empty">Loading featured members...</div>';
-        return;
-      }
+      const owners = [
+        { name: "Nfugo", role: "Owner", emoji: "👑" },
+        { name: "Lost Signal", role: "Second Owner", emoji: "🔱" },
+        { name: "Bulldog", role: "Realm Owner", emoji: "⚔️" }
+      ];
 
-      featured.forEach(member => {
+      owners.forEach(owner => {
         const card = document.createElement("div");
-        card.className = "staff-card";
-        const status = getStatusClass(member.status);
+        card.className = "staff-card owner-card";
         card.innerHTML = `
-          <img src="${member.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png"}" alt="${member.username}">
-          <div style="font-weight: 900; margin-bottom: 4px;">${member.username}</div>
-          <div class="staff-role">
-            <span class="dot ${status}" style="display: inline-block;"></span>
-            ${member.status || "unknown"}
-          </div>
+          <div class="owner-emoji">${owner.emoji}</div>
+          <div class="owner-name">${owner.name}</div>
+          <div class="owner-role">${owner.role}</div>
         `;
         staffList.appendChild(card);
       });
