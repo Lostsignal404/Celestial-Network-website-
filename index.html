@@ -900,8 +900,11 @@
           <div class="join-box">
             <div class="join-label">🌌 Realm Access</div>
             <div class="join-value">Available</div>
-            <div class="join-subtext">Join the Discord server to get access details and community updates.</div>
-            <button class="btn btn-secondary" id="copyRealmBtn">Copy Access Text</button>
+            <div class="join-subtext">Join the Discord server to get access details or use the direct realm link.</div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+              <a id="joinBtnRealmDiscord" class="btn btn-primary" href="#" target="_blank">Join Discord for Code</a>
+              <a class="btn btn-secondary" href="https://realmbot.link/celestial_smp_join" target="_blank">Direct Realm Link</a>
+            </div>
           </div>
 
           <div class="join-box">
@@ -1060,6 +1063,7 @@
     const joinBtnHero = document.getElementById("joinBtnHero");
     const joinBtnSide = document.getElementById("joinBtnSide");
     const joinBtnRealm = document.getElementById("joinBtnRealm");
+    const joinBtnRealmDiscord = document.getElementById("joinBtnRealmDiscord");
     const membersGrid = document.getElementById("membersGrid");
     const voiceChannels = document.getElementById("voiceChannels");
     const activityFeed = document.getElementById("activityFeed");
@@ -1211,6 +1215,7 @@
         joinBtnHero.href = currentInvite;
         joinBtnSide.href = currentInvite;
         joinBtnRealm.href = currentInvite;
+        joinBtnRealmDiscord.href = currentInvite;
 
         sidebarStatus.innerHTML = `<div style="font-size:0.9rem;"><strong>${data.presence_count || 0}</strong> online</div>`;
 
