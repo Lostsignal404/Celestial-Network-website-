@@ -120,6 +120,9 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
+      z-index: -1;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      display: none !important;
     }
 
     .loader-logo {
@@ -1278,13 +1281,25 @@
     loadServer();
     setInterval(loadServer, 15000);
     
-    // Fallback: Hide loader after 3 seconds if not already hidden
+    // Hide loader immediately after page loads
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const loader = document.getElementById("loader");
+        if (loader) {
+          loader.classList.add("hidden");
+          console.log("Loader hidden on page load");
+        }
+      }, 500);
+    });
+    
+    // Also hide with timeout as backup (1 second)
     setTimeout(() => {
       const loader = document.getElementById("loader");
       if (loader && !loader.classList.contains("hidden")) {
         loader.classList.add("hidden");
+        console.log("Loader hidden by timeout");
       }
-    }, 3000);
+    }, 1000);
   </script>
 </body>
 </html>
