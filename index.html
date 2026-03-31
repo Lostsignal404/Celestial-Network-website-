@@ -879,6 +879,7 @@
         <div class="sidebar-buttons">
           <a id="joinBtnSide" class="btn btn-primary" href="#" target="_blank">Join Discord</a>
           <button class="btn btn-secondary" id="widgetBtn">Discord Widget</button>
+          <button class="btn btn-secondary" id="appealsBtn">Appeals</button>
           <button class="btn btn-secondary" id="copyInviteBtn">Copy Invite</button>
           <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
           <button class="btn btn-secondary" id="themeToggle">Toggle Theme</button>
@@ -1101,6 +1102,19 @@
     </div>
   </div>
 
+  <div id="appealsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Appeal a Punishment</div>
+        <div class="modal-close" id="closeAppealsBtn">✕</div>
+      </div>
+      <p>Click below to appeal a punishment in Celestial Network</p>
+      <div class="modal-actions">
+        <a href="https://appeal.gg/C5EscREEW9" target="_blank" class="btn btn-primary">Open Appeals Form</a>
+      </div>
+    </div>
+  </div>
+
   <script>
     const WIDGET_URL = "https://discord.com/api/guilds/1267622655201378314/widget.json";
 
@@ -1317,6 +1331,25 @@
     widgetModal.addEventListener("click", (e) => {
       if (e.target === widgetModal) {
         widgetModal.classList.remove("active");
+      }
+    });
+
+    // Appeals Modal
+    const appealsModal = document.getElementById("appealsModal");
+    const appealsBtn = document.getElementById("appealsBtn");
+    const closeAppealsBtn = document.getElementById("closeAppealsBtn");
+    
+    appealsBtn.addEventListener("click", () => {
+      appealsModal.classList.add("active");
+    });
+    
+    closeAppealsBtn.addEventListener("click", () => {
+      appealsModal.classList.remove("active");
+    });
+    
+    appealsModal.addEventListener("click", (e) => {
+      if (e.target === appealsModal) {
+        appealsModal.classList.remove("active");
       }
     });
     
