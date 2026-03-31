@@ -650,8 +650,6 @@
 
     .faq-item summary::-webkit-details-marker { display: none; }
 
-    .faq-item summary::-webkit-details-marker { display: none; }
-
     .footer {
       text-align: center;
       color: var(--muted);
@@ -1248,9 +1246,6 @@
 
     document.getElementById("refreshBtn").addEventListener("click", loadServer);
     document.getElementById("copyInviteBtn").addEventListener("click", () => {
-      if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
-    });
-    document.getElementById("copyRealmBtn").addEventListener("click", () => {
       if (currentInvite) navigator.clipboard.writeText(currentInvite), alert("Invite link copied!");
     });
     document.getElementById("themeToggle").addEventListener("click", () => {
