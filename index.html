@@ -1037,7 +1037,7 @@
       <img src="logo.png" alt="Celestial Logo">
       <span>Celestial Network</span>
     </div>
-    <button class="menu-btn" id="menuToggle">☰</button>
+    <button class="menu-btn" id="menuToggle" aria-expanded="false" aria-label="Open navigation menu">☰</button>
   </div>
 
   <div class="app">
@@ -1065,7 +1065,7 @@
       <div class="sidebar-card">
         <div class="sidebar-title">Quick Actions</div>
         <div class="sidebar-buttons">
-          <a id="joinBtnSide" class="btn btn-primary" href="#" target="_blank">Join Discord</a>
+          <a id="joinBtnSide" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Join Discord</a>
           <button class="btn btn-secondary" id="widgetBtn">Discord Widget</button>
           <button class="btn btn-secondary" id="appealsBtn">Appeals</button>
           <button class="btn btn-secondary" id="copyInviteBtn">Copy Invite</button>
@@ -1089,8 +1089,8 @@
             <h1 id="serverName">Celestial Network</h1>
             
             <!-- Realm Status Display -->
-            <div id="realmStatusBadge" style="display: inline-flex; padding: 10px 16px; border-radius: 999px; font-weight: 800; background: rgba(34,197,94,0.18); color: #22c55e; border: 1px solid rgba(34,197,94,0.35);">🟢 Realm Open</div>
-            <div id="realmCustomMessage" style="color: rgba(255,255,255,0.72); font-size: 0.95rem; line-height: 1.6; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); margin: 12px 0;">Welcome to Celestial Network.</div>
+                  <div id="realmStatusBadge" role="status" aria-live="polite">🟢 Realm Open</div>
+            <div id="realmCustomMessage">Welcome to Celestial Network.</div>
             
             <div class="hero-text">
               Welcome to Celestial Network — a growing Minecraft community with custom features,
@@ -1098,8 +1098,8 @@
             </div>
 
             <div class="hero-actions">
-              <a id="joinBtnHero" class="btn btn-primary" href="#" target="_blank">Join the Community</a>
-              <a class="btn btn-secondary" href="https://escalmc.com/realms/S7wxR61oZ7SqD1KiuDfp/" target="_blank">Vote Here</a>
+              <a id="joinBtnHero" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Join the Community</a>
+              <a id="voteBtn" class="btn btn-secondary" href="https://escalmc.com/realms/S7wxR61oZ7SqD1KiuDfp/" target="_blank" rel="noopener noreferrer">Vote Here</a>
             </div>
 
             <div class="quick-badges">
@@ -1145,8 +1145,8 @@
             <div class="join-value">Available</div>
             <div class="join-subtext">Join the Discord server to get access details or use the direct realm link.</div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-              <a id="joinBtnRealmDiscord" class="btn btn-primary" href="#" target="_blank">Join Discord for Code</a>
-              <a class="btn btn-secondary" href="https://realmbot.link/celestial_smp_join" target="_blank">Direct Realm Link</a>
+              <a id="joinBtnRealmDiscord" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Join Discord for Code</a>
+              <a id="directRealmBtn" class="btn btn-secondary" href="https://realmbot.link/celestial_smp_join" target="_blank" rel="noopener noreferrer">Direct Realm Link</a>
             </div>
           </div>
 
@@ -1160,7 +1160,7 @@
             <div class="join-label">🚀 Quick Join</div>
             <div class="join-value">Discord Invite</div>
             <div class="join-subtext">The fastest way to join and receive all realm & community updates.</div>
-            <a id="joinBtnRealm" class="btn btn-primary" href="#" target="_blank">Join Discord</a>
+<a id="joinBtnRealm" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">Join Discord</a>
           </div>
         </div>
       </section>
@@ -1286,34 +1286,34 @@
     </main>
   </div>
 
-  <div id="widgetModal" class="modal">
-    <div class="modal-content">
+  <div id="widgetModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="widgetModalTitle" aria-hidden="true">
+    <div class="modal-content" tabindex="-1">
       <div class="modal-header">
-        <div class="modal-title">Server Widget</div>
+        <div class="modal-title" id="widgetModalTitle">Server Widget</div>
         <div class="modal-close" id="closeWidgetBtn">✕</div>
       </div>
       <iframe src="https://discord.com/widget?id=1267622655201378314&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
     </div>
   </div>
 
-  <div id="appealsModal" class="modal">
-    <div class="modal-content">
+  <div id="appealsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="appealsModalTitle" aria-hidden="true">
+    <div class="modal-content" tabindex="-1">
       <div class="modal-header">
-        <div class="modal-title">Appeal a Punishment</div>
+        <div class="modal-title" id="appealsModalTitle">Appeal a Punishment</div>
         <div class="modal-close" id="closeAppealsBtn">✕</div>
       </div>
       <p>Click below to appeal a punishment in Celestial Network</p>
       <div class="modal-actions">
-        <a href="https://appeal.gg/C5EscREEW9" target="_blank" class="btn btn-primary">Open Appeals Form</a>
+        <a id="appealsFormLink" href="https://appeal.gg/C5EscREEW9" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Open Appeals Form</a>
       </div>
     </div>
   </div>
 
   <!-- Staff Login Modal -->
-  <div id="staffLoginModal" class="modal">
-    <div class="modal-content">
+  <div id="staffLoginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="staffLoginModalTitle" aria-hidden="true">
+    <div class="modal-content" tabindex="-1">
       <div class="modal-header">
-        <div class="modal-title">Staff Login</div>
+        <div class="modal-title" id="staffLoginModalTitle">Staff Login</div>
         <div class="modal-close" id="closeStaffLoginBtn">✕</div>
       </div>
       <div id="staffLoginError">Invalid password. Please try again.</div>
@@ -1328,10 +1328,10 @@
   </div>
 
   <!-- Staff Admin Modal -->
-  <div id="staffAdminModal" class="modal">
-    <div class="modal-content">
+  <div id="staffAdminModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="staffAdminModalTitle" aria-hidden="true">
+    <div class="modal-content" tabindex="-1">
       <div class="modal-header">
-        <div class="modal-title">Admin Panel</div>
+        <div class="modal-title" id="staffAdminModalTitle">Admin Panel</div>
         <div class="modal-close" id="closeStaffAdminBtn">✕</div>
       </div>
       <div class="admin-input-group">
@@ -1344,6 +1344,22 @@
       <div class="admin-input-group">
         <label class="admin-input-label">Custom Message</label>
         <input type="text" id="adminCustomMessageInput" class="admin-input" placeholder="Enter custom message...">
+      </div>
+      <div class="admin-input-group">
+        <label class="admin-input-label" for="adminInviteLinkInput">Discord Invite Link</label>
+        <input type="url" id="adminInviteLinkInput" class="admin-input" placeholder="https://discord.gg/your-invite">
+      </div>
+      <div class="admin-input-group">
+        <label class="admin-input-label" for="adminRealmLinkInput">Direct Realm Link</label>
+        <input type="url" id="adminRealmLinkInput" class="admin-input" placeholder="https://realmbot.link/...">
+      </div>
+      <div class="admin-input-group">
+        <label class="admin-input-label" for="adminVoteLinkInput">Vote Link</label>
+        <input type="url" id="adminVoteLinkInput" class="admin-input" placeholder="https://escalmc.com/...">
+      </div>
+      <div class="admin-input-group">
+        <label class="admin-input-label" for="adminAppealsLinkInput">Appeals Link</label>
+        <input type="url" id="adminAppealsLinkInput" class="admin-input" placeholder="https://appeal.gg/...">
       </div>
       <div class="modal-actions">
         <button id="saveRealmStatusBtn" class="btn btn-primary">Save Status</button>
@@ -1364,6 +1380,7 @@
     const joinBtnSide = document.getElementById("joinBtnSide");
     const joinBtnRealm = document.getElementById("joinBtnRealm");
     const joinBtnRealmDiscord = document.getElementById("joinBtnRealmDiscord");
+    const directRealmBtn = document.getElementById("directRealmBtn");
     const membersGrid = document.getElementById("membersGrid");
     const voiceChannels = document.getElementById("voiceChannels");
     const activityFeed = document.getElementById("activityFeed");
@@ -1389,9 +1406,15 @@
     const setRealmOpenBtn = document.getElementById("setRealmOpenBtn");
     const setRealmClosedBtn = document.getElementById("setRealmClosedBtn");
     const adminCustomMessageInput = document.getElementById("adminCustomMessageInput");
+    const adminInviteLinkInput = document.getElementById("adminInviteLinkInput");
+    const adminRealmLinkInput = document.getElementById("adminRealmLinkInput");
+    const adminVoteLinkInput = document.getElementById("adminVoteLinkInput");
+    const adminAppealsLinkInput = document.getElementById("adminAppealsLinkInput");
     const saveRealmStatusBtn = document.getElementById("saveRealmStatusBtn");
     const logoutStaffBtn = document.getElementById("logoutStaffBtn");
     const adminSaveStatus = document.getElementById("adminSaveStatus");
+    const appealsFormLink = document.getElementById("appealsFormLink");
+    const voteBtn = document.getElementById("voteBtn");
 
     let currentInvite = "";
 
@@ -1477,7 +1500,8 @@
     function renderVoiceChannels(channels, members) {
       voiceChannels.innerHTML = "";
       const voice = channels.filter(ch =>
-        typeof ch.name === "string" && (ch.name.toLowerCase().includes("voice") || ch.position !== undefined || ch.id)
+        ch.type === 2 || ch.type === 13 ||
+        (typeof ch.name === "string" && ch.name.toLowerCase().includes("voice"))
       );
 
       if (!voice.length) {
@@ -1592,19 +1616,77 @@
         if (data) {
           const status = data.status || "open";
           const message = data.message || "Welcome to Celestial Network.";
+          const links = data.links || {};
 
           updateRealmStatusUI(status, message);
+          updateLinksUI(links);
           adminSelectedStatus = status;
           adminCustomMessageInput.value = message;
         } else {
           updateRealmStatusUI("open", "Welcome to Celestial Network.");
+          updateLinksUI(getSavedLinks());
         }
       });
     }
 
+    function getSavedLinks() {
+      try {
+        const stored = localStorage.getItem("celestialLinks");
+        return stored ? JSON.parse(stored) : {};
+      } catch (err) {
+        console.warn("Unable to read saved links from localStorage:", err);
+        return {};
+      }
+    }
+
+    function saveLinksLocally(links) {
+      try {
+        localStorage.setItem("celestialLinks", JSON.stringify(links));
+      } catch (err) {
+        console.warn("Unable to save links to localStorage:", err);
+      }
+    }
+
+    function getEffectiveLinks(links = {}) {
+      const saved = getSavedLinks();
+      return {
+        invite: links.invite || saved.invite || currentInvite || "#",
+        realm: links.realm || saved.realm || "https://realmbot.link/celestial_smp_join",
+        vote: links.vote || saved.vote || "https://escalmc.com/realms/S7wxR61oZ7SqD1KiuDfp/",
+        appeals: links.appeals || saved.appeals || "https://appeal.gg/C5EscREEW9"
+      };
+    }
+
+    function updateLinksUI(links = {}) {
+      const { invite, realm, vote, appeals } = getEffectiveLinks(links);
+
+      joinBtnHero.href = invite;
+      joinBtnSide.href = invite;
+      joinBtnRealm.href = invite;
+      joinBtnRealmDiscord.href = invite;
+      directRealmBtn.href = realm;
+      voteBtn.href = vote;
+      appealsFormLink.href = appeals;
+
+      if (adminInviteLinkInput) adminInviteLinkInput.value = invite;
+      if (adminRealmLinkInput) adminRealmLinkInput.value = realm;
+      if (adminVoteLinkInput) adminVoteLinkInput.value = vote;
+      if (adminAppealsLinkInput) adminAppealsLinkInput.value = appeals;
+    }
+
     async function saveRealmStatusToFirebase() {
+      const links = {
+        invite: adminInviteLinkInput.value.trim() || currentInvite || "#",
+        realm: adminRealmLinkInput.value.trim() || "https://realmbot.link/celestial_smp_join",
+        vote: adminVoteLinkInput.value.trim() || "https://escalmc.com/realms/S7wxR61oZ7SqD1KiuDfp/",
+        appeals: adminAppealsLinkInput.value.trim() || "https://appeal.gg/C5EscREEW9"
+      };
+
+      saveLinksLocally(links);
+
       if (!window.firebaseDB || !window.firebaseRef || !window.firebaseSet) {
-        adminSaveStatus.textContent = "Firebase is not connected.";
+        adminSaveStatus.textContent = "Firebase is not connected. Links saved locally.";
+        updateLinksUI(links);
         return;
       }
 
@@ -1617,30 +1699,46 @@
         await window.firebaseSet(realmRef, {
           status: adminSelectedStatus,
           message: message,
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
+          links: links
         });
 
         adminSaveStatus.textContent = "✅ Saved live successfully.";
         updateRealmStatusUI(adminSelectedStatus, message);
+        updateLinksUI(links);
       } catch (error) {
         console.error(error);
         adminSaveStatus.textContent = "❌ Failed to save.";
       }
     }
 
+    function openModal(modal) {
+      if (!modal) return;
+      modal.classList.add("active");
+      modal.setAttribute("aria-hidden", "false");
+      const focusable = modal.querySelector("button, [href], input, textarea, select");
+      if (focusable) focusable.focus();
+    }
+
+    function closeModal(modal) {
+      if (!modal) return;
+      modal.classList.remove("active");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
     // ===== STAFF PANEL =====
     openAdminPanelBtn.addEventListener("click", () => {
       staffLoginError.style.display = "none";
       staffPasswordInput.value = "";
-      staffLoginModal.classList.add("active");
+      openModal(staffLoginModal);
     });
 
     closeStaffLoginBtn.addEventListener("click", () => {
-      staffLoginModal.classList.remove("active");
+      closeModal(staffLoginModal);
     });
 
     closeStaffAdminBtn.addEventListener("click", () => {
-      staffAdminModal.classList.remove("active");
+      closeModal(staffAdminModal);
     });
 
     staffLoginBtn.addEventListener("click", () => {
@@ -1648,8 +1746,8 @@
 
       if (entered === STAFF_PASSWORD) {
         sessionStorage.setItem("staffUnlocked", "true");
-        staffLoginModal.classList.remove("active");
-        staffAdminModal.classList.add("active");
+        closeModal(staffLoginModal);
+        openModal(staffAdminModal);
         staffLoginError.style.display = "none";
       } else {
         staffLoginError.style.display = "block";
@@ -1679,11 +1777,11 @@
 
     // Modal outside click close
     staffLoginModal.addEventListener("click", (e) => {
-      if (e.target === staffLoginModal) staffLoginModal.classList.remove("active");
+      if (e.target === staffLoginModal) closeModal(staffLoginModal);
     });
 
     staffAdminModal.addEventListener("click", (e) => {
-      if (e.target === staffAdminModal) staffAdminModal.classList.remove("active");
+      if (e.target === staffAdminModal) closeModal(staffAdminModal);
     });
 
     // ===== OTHER BUTTONS =====
@@ -1694,6 +1792,17 @@
         navigator.clipboard.writeText(currentInvite);
         alert("Invite link copied!");
       }
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+          document.body.classList.remove('menu-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.setAttribute('aria-label', 'Open navigation menu');
+        }
+      });
     });
 
     document.getElementById("themeToggle").addEventListener("click", () => {
@@ -1711,16 +1820,16 @@
     const closeWidgetBtn = document.getElementById("closeWidgetBtn");
 
     widgetBtn.addEventListener("click", () => {
-      widgetModal.classList.add("active");
+      openModal(widgetModal);
     });
 
     closeWidgetBtn.addEventListener("click", () => {
-      widgetModal.classList.remove("active");
+      closeModal(widgetModal);
     });
 
     widgetModal.addEventListener("click", (e) => {
       if (e.target === widgetModal) {
-        widgetModal.classList.remove("active");
+        closeModal(widgetModal);
       }
     });
 
@@ -1730,16 +1839,16 @@
     const closeAppealsBtn = document.getElementById("closeAppealsBtn");
 
     appealsBtn.addEventListener("click", () => {
-      appealsModal.classList.add("active");
+      openModal(appealsModal);
     });
 
     closeAppealsBtn.addEventListener("click", () => {
-      appealsModal.classList.remove("active");
+      closeModal(appealsModal);
     });
 
     appealsModal.addEventListener("click", (e) => {
       if (e.target === appealsModal) {
-        appealsModal.classList.remove("active");
+        closeModal(appealsModal);
       }
     });
 
@@ -1749,12 +1858,16 @@
 
     if (menuToggle && sidebar) {
       menuToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
+        const isOpen = sidebar.classList.toggle("open");
         document.body.classList.toggle("menu-open");
+        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
       });
     }
 
     // Initial load
+    const savedLinks = getSavedLinks();
+    updateLinksUI(savedLinks);
     loadServer();
     setInterval(loadServer, 15000);
 
